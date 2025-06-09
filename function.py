@@ -8,7 +8,7 @@ def objective_function_w4(X, Y):
     X_scaled = X / 250.0
     Y_scaled = Y / 250.0
     
-    # Função de Rosenbrock (r) é calculada com os valores escalados
+    # Função de Rosenbrock (r) é calculada com os valores reescalonados
     R_func = 100 * (Y_scaled - X_scaled**2)**2 + (1 - X_scaled)**2
 
     x1 = 25 * X_scaled
@@ -25,7 +25,7 @@ def objective_function_w4(X, Y):
     zsh_numerator = (np.sin(np.sqrt(x1**2 + x2**2)))**2 - 0.5
     zsh_denominator = (1 + 0.1 * (x1**2 + x2**2))**2
     zsh = 0.5 - zsh_numerator / (zsh_denominator + epsilon)
-          
+    
     Fobj = F10 * zsh
 
     w4 = np.sqrt(R_func**2 + Z_func**2) + Fobj
