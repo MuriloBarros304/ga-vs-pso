@@ -12,7 +12,7 @@ Z = objective_function_w4(X, Y)
 
 # Cria a figura 3D interativa
 fig, ax = plt.subplots(subplot_kw={'projection': '3d'}, figsize=(12, 8))
-ax.plot_wireframe(X, Y, Z, rstride=10, cstride=10, linewidth=0.5)
+ax.plot_wireframe(X, Y, Z, rstride=10, cstride=10, linewidth=0.7)
 
 ax.set_title('Visualização 3D da Função Objetivo w4', fontsize=16)
 ax.set_xlabel('X')

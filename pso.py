@@ -1,12 +1,12 @@
 from function import objective_function_w4
 import numpy as np
 
-def pso(num_particles, num_iterations, bounds, 
-        inertia_weight=0.5, cognitive_coeff=1.5, social_coeff=1.5, 
-        tolerance=1e-6, patience=10):
+def pso(num_particles, max_iterations, bounds, 
+    inertia_weight=0.5, cognitive_coeff=1.5, social_coeff=1.5, 
+    tolerance=1e-6, patience=10):
 
     pos_history = []
-    fitness_history = [] 
+    fitness_history = []
     
     particles = np.random.uniform(bounds[0], bounds[1], (num_particles, 2))
     velocities = np.random.uniform(-1, 1, (num_particles, 2))
@@ -17,17 +17,17 @@ def pso(num_particles, num_iterations, bounds,
     global_best_position = personal_best_positions[np.argmin(personal_best_fitness)]
     
     stagnation_counter = 0
-    last_global_best_fitness = np.inf 
+    last_global_best_fitness = np.inf
 
-    for iteration in range(num_iterations):
+    for iteration in range(max_iterations):
         pos_history.append(particles.copy())
         fitness_history.append(fitness.copy())
 
         for i in range(num_particles):
             r1, r2 = np.random.rand(2)
             velocities[i] = (inertia_weight * velocities[i] +
-                             cognitive_coeff * r1 * (personal_best_positions[i] - particles[i]) +
-                             social_coeff * r2 * (global_best_position - particles[i]))
+                cognitive_coeff * r1 * (personal_best_positions[i] - particles[i]) +
+                social_coeff * r2 * (global_best_position - particles[i]))
             
             particles[i] += velocities[i]
             particles[i] = np.clip(particles[i], bounds[0], bounds[1])
@@ -44,19 +44,22 @@ def pso(num_particles, num_iterations, bounds,
             global_best_position = personal_best_positions[np.argmin(personal_best_fitness)].copy()
             global_best_fitness = current_best_fitness
             
-        improvement = last_global_best_fitness - global_best_fitness
+        improvement = last_global_best_fitness - global_best_fitness # Calcula a variação de Z
         if improvement > tolerance:
             stagnation_counter = 0
         else:
             stagnation_counter += 1
             
-        if stagnation_counter >= patience:
+        if stagnation_counter >= patience: # Se não houver melhoria significativa por 'patience' iterações
             print(f"\nConvergência atingida na iteração {iteration + 1} devido à estagnação.")
             # Adiciona o último estado antes de parar
             pos_history.append(particles.copy())
             fitness_history.append(fitness.copy())
             break
             
+        if iteration == max_iterations - 1:
+            print(f"\nMáximo de iterações ({max_iterations}) atingido.")
+        
         last_global_best_fitness = global_best_fitness
 
     final_cost = objective_function_w4(global_best_position[0], global_best_position[1])
