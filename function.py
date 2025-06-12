@@ -17,8 +17,7 @@ def objective_function_w4(X, Y):
     b = 0.1
     c = 0.5 * np.pi
     
-    F10 = -a * np.exp(-b * np.sqrt((x1**2 + x2**2) / 2)) - \
-          np.exp((np.cos(c * x1) + np.cos(c * x2)) / 2) + np.exp(1)
+    F10 = -a * np.exp(-b * np.sqrt((x1**2 + x2**2) / 2)) - np.exp((np.cos(c * x1) + np.cos(c * x2)) / 2) + np.exp(1)
 
     # Cálculo do ZSH (Zhang-Shen-Huang)
     epsilon = 1e-9

@@ -9,9 +9,9 @@ MAX_ITERATIONS = 100 # Número máximo de iterações
 BOUNDS = (np.array([-500, -500]), np.array([500, 500])) # Limites do espaço de busca
 INERCIA_WEIGHT = 0.5 # Peso da inércia
 COGNITIVE_COEFF = 1.5 # Coeficiente cognitivo
-SOCIAL_COEFF = 1.5 # Coeficiente social
+SOCIAL_COEFF = 1 # Coeficiente social
 TOLERANCE = 1e-2 # Tolerância para considerar que não houve melhoria significativa
-PATIENCE = 10 # Número de iterações sem melhoria antes de parar
+PATIENCE = 5 # Número de iterações sem melhoria antes de parar
 LEVEL_UPDATE_INTERVAL = 10 # Intervalo para atualizar os níveis de contorno na animação
 
 best_pos, best_cost, pos_history, fitness_history = pso(
@@ -51,7 +51,7 @@ def animate(i):
             max_level = min_level + 1.0
         
         # Recalcula e armazena os novos níveis
-        last_levels = np.linspace(min_level, max_level, 20)
+        last_levels = np.linspace(min_level, max_level, 40)
     
     ax.contourf(X, Y, Z_background, levels=last_levels, cmap='autumn', alpha=0.7, zorder=5)
     
@@ -67,4 +67,4 @@ def animate(i):
     ax.set_aspect('equal', adjustable='box')
 
 anim = FuncAnimation(fig, animate, frames=actual_iterations, interval=150, blit=False)
-anim.save('animacoes/pso_animation.mp4', writer='ffmpeg', fps=2, dpi=100)
+anim.save('animacoes/pso_animation.mp4', writer='ffmpeg', fps=1, dpi=100)
