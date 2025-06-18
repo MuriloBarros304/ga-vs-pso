@@ -35,35 +35,25 @@ Z_background = objective_function_w4(X, Y)
 
 fig, ax = plt.subplots(figsize=(10, 8))
 
-last_levels = None
+level_bounds = np.linspace(np.min(objective_function_w4(X, Y)), np.max(objective_function_w4(X, Y)), 30)
 
 def animate(i):
-    global last_levels
     ax.clear()
 
     current_positions = pos_history[i]
     current_fitnesses = fitness_history[i]
-    
-    if i % LEVEL_UPDATE_INTERVAL == 0 or last_levels is None:
-        min_level = np.min(current_fitnesses)
-        max_level = np.max(current_fitnesses)
-        if max_level <= min_level:
-            max_level = min_level + 1.0
         
-        # Recalcula e armazena os novos níveis
-        last_levels = np.linspace(min_level, max_level, 40)
-    
-    ax.contourf(X, Y, Z_background, levels=last_levels, cmap='autumn', alpha=0.7, zorder=5)
+    ax.contourf(X, Y, Z_background, levels=level_bounds, cmap='autumn', alpha=0.7, zorder=5)
     
     ax.scatter(current_positions[:, 0], current_positions[:, 1], marker='o', color='blue', alpha=0.7, zorder=5, label='Partículas')
 
     ax.set_xlabel("X")
     ax.set_ylabel("Y")
-    ax.set_title(f'Iteração {i+1}/{actual_iterations} | Melhor Custo Atual: {np.min(current_fitnesses):.2f}', fontsize=16)
+    ax.set_title(f'Iteração {i+1}/{actual_iterations} | Melhor Z: {np.min(current_fitnesses):.2f}', fontsize=16)
     ax.legend(loc='upper right', fontsize=12)
     ax.set_xlim(BOUNDS[0][0], BOUNDS[1][0])
     ax.set_ylim(BOUNDS[0][1], BOUNDS[1][1])
-    ax.grid(True, linestyle='--', alpha=0.7)
+    ax.grid(True, linestyle='--', alpha=1)
     ax.set_aspect('equal', adjustable='box')
 
 anim = FuncAnimation(fig, animate, frames=actual_iterations, interval=150, blit=False)
