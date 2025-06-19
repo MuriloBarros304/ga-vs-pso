@@ -1,19 +1,19 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
-from function import objective_function_w4
+from function import objective_function
 from pso import pso
 
-NUM_PARTICLES = 40 # Número de partículas
-MAX_ITERATIONS = 100 # Número máximo de iterações
+NUM_PARTICLES = 20         # Número de partículas
+MAX_ITERATIONS = 20        # Número máximo de iterações
 BOUNDS = (np.array([-500, -500]), np.array([500, 500])) # Limites do espaço de busca
-INERCIA_WEIGHT = 0.5 # Peso da inércia
-COGNITIVE_COEFF = 1.5 # Coeficiente cognitivo
-SOCIAL_COEFF = 1 # Coeficiente social
-TOLERANCE = 1e-2 # Tolerância para considerar que não houve melhoria significativa
-PATIENCE = 5 # Número de iterações sem melhoria antes de parar
-LEVEL_UPDATE_INTERVAL = 10 # Intervalo para atualizar os níveis de contorno na animação
+INERCIA_WEIGHT = 0.5       # Peso da inércia
+COGNITIVE_COEFF = 1.5      # Coeficiente cognitivo
+SOCIAL_COEFF = 1           # Coeficiente social
+TOLERANCE = 1e-4           # Tolerância para considerar que não houve melhoria significativa
+PATIENCE = 5               # Número de iterações sem melhoria antes de parar
 
+print('------- PSO --------')
 best_pos, best_cost, pos_history, fitness_history = pso(
     num_particles=NUM_PARTICLES,
     max_iterations=MAX_ITERATIONS,
@@ -31,11 +31,11 @@ print(f"Z ótimo: {best_cost:.2f}")
 x_range = np.arange(BOUNDS[0][0], BOUNDS[1][0] + 1, 10)
 y_range = np.arange(BOUNDS[0][1], BOUNDS[1][1] + 1, 10)
 X, Y = np.meshgrid(x_range, y_range)
-Z_background = objective_function_w4(X, Y)
+Z_background = objective_function(X, Y)
 
 fig, ax = plt.subplots(figsize=(10, 8))
 
-level_bounds = np.linspace(np.min(objective_function_w4(X, Y)), np.max(objective_function_w4(X, Y)), 30)
+level_bounds = np.linspace(np.min(objective_function(X, Y)), np.max(objective_function(X, Y)), 50)
 
 def animate(i):
     ax.clear()

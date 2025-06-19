@@ -1,32 +1,66 @@
 import numpy as np
 
-# w4 adaptada do Scilab
-def objective_function_w4(X, Y):
+def objective_function(X: np.ndarray, Y: np.ndarray) -> np.ndarray:
+    """
+    Função objetivo que calcula w1 + w4, baseada no código Scilab.
+    
+    Onde:
+    - r=100*(y-x.^2).^2+(1-x).^2;
+    - F10=-a*exp(-b*sqrt((x1.^2+x2.^2)/2))-exp((cos(c*x1)+cos(c*x2))/2)+exp(1);
+    - zsh(i,j)=0.5-((sin(sqrt(xs(i)^2+ys(j)^2)))^2-0.5)./(1+0.1*(xs(i)^2+ys(j)^2))^2;
+    - Fobj=F10.*zsh//+a*cos(x1/30);
+    - a=500; b=0.1; c=0.5*pi;
+    Args:
+    - X: Array representando as coordenadas X.
+    - Y: Array representando as coordenadas Y.
+    Returns:
+    - Array 1D com os valores da função objetivo calculados para cada par (X, Y).
+    """
+    # ==============================================================================
+    # ============== 1: Calcular os componentes base (z, r, Fobj) ==================
+    # ==============================================================================
+
+    # Componente Z (Função de Schwefel), usa as coordenadas originais
     Z_func = -X * np.sin(np.sqrt(np.abs(X))) - Y * np.sin(np.sqrt(np.abs(Y)))
 
-    # Reescalonar X e Y ANTES de calcular a função de Rosenbrock
+    # Reescalonar X e Y para os cálculos de Rosenbrock e Ackley/Schaffer
     X_scaled = X / 250.0
     Y_scaled = Y / 250.0
     
-    # Função de Rosenbrock (r) é calculada com os valores reescalonados
+    # Componente R (Função de Rosenbrock), usa as coordenadas reescalonadas
     R_func = 100 * (Y_scaled - X_scaled**2)**2 + (1 - X_scaled)**2
 
+    # Cálculo dos componentes para Fobj
     x1 = 25 * X_scaled
     x2 = 25 * Y_scaled
     a = 500
     b = 0.1
     c = 0.5 * np.pi
     
-    F10 = -a * np.exp(-b * np.sqrt((x1**2 + x2**2) / 2)) - np.exp((np.cos(c * x1) + np.cos(c * x2)) / 2) + np.exp(1)
+    # Componente F10 (Função de Ackley)
+    F10 = -a * np.exp(-b * np.sqrt((x1**2 + x2**2) / 2)) - \
+          np.exp((np.cos(c * x1) + np.cos(c * x2)) / 2) + np.exp(1)
 
-    # Cálculo do ZSH (Zhang-Shen-Huang)
+    # Componente zsh (Função tipo Schaffer)
     epsilon = 1e-9
     zsh_numerator = (np.sin(np.sqrt(x1**2 + x2**2)))**2 - 0.5
     zsh_denominator = (1 + 0.1 * (x1**2 + x2**2))**2
     zsh = 0.5 - zsh_numerator / (zsh_denominator + epsilon)
     
+    # Componente Fobj final
     Fobj = F10 * zsh
 
-    w4 = np.sqrt(R_func**2 + Z_func**2) + Fobj
+    # ==============================================================================
+    # ===================== 2: Montar w1, w4 e somá-las ============================
+    # ==============================================================================
+
+    # Cálculo de w1
+    w1_val = R_func + Z_func
+
+    # Cálculo de w4
+    w4_val = np.sqrt(R_func**2 + Z_func**2) + Fobj
     
-    return w4
+    # A função objetivo final é a soma das duas
+    final_result = w1_val + w4_val
+    
+    return final_result
