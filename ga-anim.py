@@ -5,15 +5,15 @@ from matplotlib.animation import FuncAnimation
 from function import objective_function
 from ga import ga
 
-NUM_INDIVIDUALS = 30       # Número de indivíduos na população
-MAX_GENERATIONS = 50       # Número máximo de gerações
+NUM_INDIVIDUALS = 100      # Número de indivíduos na população
+MAX_GENERATIONS = 20       # Número máximo de gerações
 BOUNDS = (np.array([-500, -500]), np.array([500, 500])) # Limites
-MUTATION_RATE = 0.9        # Taxa de mutação
-MUTATION_STRENGTH = 1.5    # Força da mutação
-CROSSOVER_RATE = 0.7       # Taxa de crossover
+MUTATION_RATE = 1.0        # Taxa de mutação (0 a 1)
+MUTATION_STRENGTH = 1.0    # Força da mutação (0 a 1)
+CROSSOVER_RATE = 0.9       # Taxa de crossover (0 a 1)
 ELITISM_SIZE = 3           # Número de indivíduos de elite
-TOURNAMENT_SIZE = 4        # Tamanho do torneio para seleção
-TOLERANCE = 1e-6           # Tolerância para estagnação
+TOURNAMENT_SIZE = 5        # Tamanho do torneio para seleção
+TOLERANCE = 1e-4           # Tolerância para estagnação
 PATIENCE = 5               # Paciência antes de parar
 LEVEL_UPDATE_INTERVAL = 10 # Intervalo de atualização do contorno
 
@@ -36,32 +36,26 @@ print(f"Z ótimo: {best_cost:.2f}")
 
 x_range = np.arange(BOUNDS[0][0], BOUNDS[1][0] + 1, 10)
 y_range = np.arange(BOUNDS[0][1], BOUNDS[1][1] + 1, 10)
-X, Y = np.meshgrid(x_range, y_range)
+X, Y = np.meshgrid(x_range, y_range) # Cria uma grade de pontos
 Z_background = objective_function(X, Y)
 
 fig, ax = plt.subplots(figsize=(10, 8))
-level_bounds = np.linspace(np.min(objective_function(X, Y)), np.max(objective_function(X, Y)), 50)
+fitness_levels = np.linspace(np.min(objective_function(X, Y)), np.max(objective_function(X, Y)), 50)
 
 def animate(i):
     ax.clear()
 
     current_population = population_history[i]
     current_fitnesses = fitness_history[i]
-    
-    if i % LEVEL_UPDATE_INTERVAL == 0:
-        min_level = np.min(current_fitnesses)
-        max_level = np.max(current_fitnesses)
-        if max_level <= min_level:
-            max_level = min_level + 1.0
             
-    ax.contourf(X, Y, Z_background, levels=level_bounds, cmap='autumn', alpha=0.7, zorder=5)
+    ax.contourf(X, Y, Z_background, levels=fitness_levels, cmap='autumn', alpha=0.7, zorder=5)
     
     ax.scatter(current_population[:, 0], current_population[:, 1], 
                marker='o', color='green', alpha=0.7, zorder=10, label='Indivíduos')
 
     ax.set_xlabel("X")
     ax.set_ylabel("Y")
-    ax.set_title(f'Geração {i+1}/{actual_generations} | Melhor Z: {np.min(current_fitnesses):.2f}', fontsize=16)
+    ax.set_title(f'Geração {i}/{actual_generations-1} | Melhor Z: {np.min(current_fitnesses):.2f}', fontsize=16)
     ax.legend(loc='upper right', fontsize=12)
     ax.set_xlim(BOUNDS[0][0], BOUNDS[1][0])
     ax.set_ylim(BOUNDS[0][1], BOUNDS[1][1])

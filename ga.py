@@ -1,9 +1,9 @@
 from function import objective_function
 import numpy as np
 
-def ga(num_individuals: int, max_generations: int, bounds: tuple,
-       crossover_rate: float=0.7, mutation_rate: float=0.1, mutation_strength: float=1.0,
-       elitism_size: int=1, tournament_size: int=3, tolerance: float=1e-6, patience: int=10) -> tuple:
+def ga(num_individuals: int, max_generations: int, bounds: tuple, crossover_rate: float=0.9,
+        mutation_rate: float=0.5, mutation_strength: float=1.0, elitism_size: int=1,
+        tournament_size: int=3, tolerance: float=1e-6, patience: int=10) -> tuple:
     """
     Algoritmo Genético para otimização de uma função objetivo.
     Args:
@@ -43,7 +43,7 @@ def ga(num_individuals: int, max_generations: int, bounds: tuple,
 
         # --- ELITISMO ---
         elite_indices = np.argsort(fitness)[:elitism_size] # Seleciona os 'elitism_size' melhores indivíduos
-        new_population = [population[i].copy() for i in elite_indices]
+        new_population = [population[i].copy() for i in elite_indices] # A nova população começa com os indivíduos de elite
 
         # --- SELEÇÃO POR TORNEIO ---
         mating_pool = [] # Lista para armazenar os pais selecionados no torneio
@@ -53,23 +53,25 @@ def ga(num_individuals: int, max_generations: int, bounds: tuple,
             mating_pool.append(population[winner_index])
 
         # --- CROSSOVER ---
-        for i in range(0, len(mating_pool), 2):
+        for i in range(0, len(mating_pool), 2): # Itera sobre o pool de pais de 2 em 2
             parent1 = mating_pool[i]
             if i + 1 < len(mating_pool):
                 parent2 = mating_pool[i+1]
                 if np.random.rand() < crossover_rate:
-                    alpha = 0.5
+                    alpha = 1.0 # Fator de ajuste para o crossover (0 a 1
                     children = []
-                    for _ in range(2):
-                        child = np.zeros_like(parent1)
-                        for j in range(len(parent1)):
-                            d = np.abs(parent1[j] - parent2[j])
-                            min_val = min(parent1[j], parent2[j]) - alpha * d
-                            max_val = max(parent1[j], parent2[j]) + alpha * d
-                            child[j] = np.random.uniform(min_val, max_val)
-                        children.append(child)
-                    new_population.extend(children)
-                else:
+                    for _ in range(2): # Gera dois filhos de cada par de pais
+                        child = np.zeros_like(parent1) # Inicializa o filho com zeros na mesma forma que os pais
+                        for j in range(len(parent1)): # Para cada gene do indivíduo, cada gene é uma coordenada (x, y)
+                            d = np.abs(parent1[j] - parent2[j]) # Distância entre os pais
+                            min_val = min(parent1[j], parent2[j]) - alpha * d # Ajuste do limite inferior
+                            max_val = max(parent1[j], parent2[j]) + alpha * d # Ajuste do limite superior
+                            child[j] = np.random.uniform(min_val, max_val) # Gera o filho aleatoriamente dentro dos limites ajustados
+                        children.append(child) # Adiciona o filho à lista de filhos
+                        # --- DEBUG ---
+                        #print(f"Geração {generation + 1}, pais: x({parent1[0]:.2f}, {parent1[1]:.2f}), y({parent2[0]:.2f}, {parent2[1]:.2f}) -> filho: ({child[0]:.2f}, {child[1]:.2f})")
+                        # --- FIM DEBUG ---
+                    new_population.extend(children) # Adiciona os filhos à nova população
                     new_population.extend([parent1, parent2])
             else:
                 new_population.append(parent1)
@@ -91,7 +93,7 @@ def ga(num_individuals: int, max_generations: int, bounds: tuple,
             best_overall_fitness = fitness[current_best_index]
             best_overall_individual = population[current_best_index].copy()
         
-        # MODIFICAÇÃO: LÓGICA DE PARADA POR TOLERÂNCIA E PACIÊNCIA
+        # --- PARADA POR TOLERÂNCIA E PACIÊNCIA ---
         improvement = last_overall_best_fitness - best_overall_fitness
         if improvement > tolerance:
             stagnation_counter = 0
@@ -109,7 +111,7 @@ def ga(num_individuals: int, max_generations: int, bounds: tuple,
     
     # Garante que o último estado seja salvo se o loop terminar por max_generations
     if len(population_history) == max_generations:
-        print(f"Número máximo de gerações {max_generations} atingido.")
+        print(f"Número máximo de gerações ({max_generations}) atingido.")
         population_history.append(population.copy())
         fitness_history.append(fitness.copy())
 

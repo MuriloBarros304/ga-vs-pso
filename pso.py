@@ -1,9 +1,8 @@
 from function import objective_function
 import numpy as np
 
-def pso(num_particles: int, max_iterations: int, bounds: tuple, 
-        cognitive_coeff: float=1.5, social_coeff: float=1.5, 
-        inertia_weight: float=0.5, tolerance: float=1e-6, patience: int=10):
+def pso(num_particles: int, max_iterations: int, bounds: tuple, cognitive_coeff: float=1.5,
+        social_coeff: float=1.5, inertia_weight: float=0.5, tolerance: float=1e-6, patience: int=10):
     """Algoritmo de Otimização por Enxame de Partículas (PSO).
     Args:
         num_particles (int): Número de partículas no enxame.
@@ -57,13 +56,13 @@ def pso(num_particles: int, max_iterations: int, bounds: tuple,
         
         fitness = objective_function(particles[:, 0], particles[:, 1])
         
-        # Encontra o melhor da geração atual
-        current_gen_best_index = np.argmin(fitness)
-        current_gen_best_fitness = fitness[current_gen_best_index]
+        # Encontra o melhor da iteração atual
+        current_iter_best_index = np.argmin(fitness)
+        current_iter_best_fitness = fitness[current_iter_best_index]
         
-        # Compara o melhor da geração atual com o melhor GLOBAL histórico
-        if current_gen_best_fitness < objective_function(global_best_position[0], global_best_position[1]):
-            global_best_position = particles[current_gen_best_index].copy()
+        # Compara o melhor da iteração atual com o melhor GLOBAL histórico
+        if current_iter_best_fitness < objective_function(global_best_position[0], global_best_position[1]):
+            global_best_position = particles[current_iter_best_index].copy()
         
         # As partículas atualizam seu pbest com base na nova posição
         update_mask = fitness < personal_best_fitness
@@ -72,6 +71,9 @@ def pso(num_particles: int, max_iterations: int, bounds: tuple,
         
         current_global_best_fitness = objective_function(global_best_position[0], global_best_position[1])
         improvement = last_global_best_fitness - current_global_best_fitness
+        # --- DEBUG ---
+        # print(f"Iteração {iteration + 1}: Melhor posição: ({global_best_position[0]:.4f}, {global_best_position[1]:.4f}), Z ótimo: {current_global_best_fitness:.2f}, Melhoria: {improvement:.6f}")
+        # --- FIM DEBUG ---
         if improvement > tolerance:
             stagnation_counter = 0
         else:
