@@ -5,14 +5,14 @@ from matplotlib.animation import FuncAnimation
 from function import objective_function
 from ga import ga
 
-NUM_INDIVIDUALS = 100      # Número de indivíduos na população
-MAX_GENERATIONS = 20       # Número máximo de gerações
+NUM_INDIVIDUALS = 80       # Número de indivíduos na população
+MAX_GENERATIONS = 30       # Número máximo de gerações
 BOUNDS = (np.array([-500, -500]), np.array([500, 500])) # Limites
-MUTATION_RATE = 1.0        # Taxa de mutação (0 a 1)
-MUTATION_STRENGTH = 1.0    # Força da mutação (0 a 1)
+MUTATION_RATE = 0.3        # Taxa de mutação (0 a 1)
+MUTATION_STRENGTH = 10     # Força da mutação
 CROSSOVER_RATE = 0.9       # Taxa de crossover (0 a 1)
 ELITISM_SIZE = 3           # Número de indivíduos de elite
-TOURNAMENT_SIZE = 5        # Tamanho do torneio para seleção
+TOURNAMENT_SIZE = 2        # Tamanho do torneio para seleção
 TOLERANCE = 1e-4           # Tolerância para estagnação
 PATIENCE = 5               # Paciência antes de parar
 LEVEL_UPDATE_INTERVAL = 10 # Intervalo de atualização do contorno

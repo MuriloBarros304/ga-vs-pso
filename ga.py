@@ -52,7 +52,7 @@ def ga(num_individuals: int, max_generations: int, bounds: tuple, crossover_rate
             winner_index = competitor_indices[np.argmin(fitness[competitor_indices])]
             mating_pool.append(population[winner_index])
 
-        # --- CROSSOVER ---
+        # --- BLEND CROSSOVER ---
         for i in range(0, len(mating_pool), 2): # Itera sobre o pool de pais de 2 em 2
             parent1 = mating_pool[i]
             if i + 1 < len(mating_pool):
@@ -66,7 +66,8 @@ def ga(num_individuals: int, max_generations: int, bounds: tuple, crossover_rate
                             d = np.abs(parent1[j] - parent2[j]) # Distância entre os pais
                             min_val = min(parent1[j], parent2[j]) - alpha * d # Ajuste do limite inferior
                             max_val = max(parent1[j], parent2[j]) + alpha * d # Ajuste do limite superior
-                            child[j] = np.random.uniform(min_val, max_val) # Gera o filho aleatoriamente dentro dos limites ajustados
+                            new_gene = np.random.uniform(min_val, max_val) # Gera o filho aleatoriamente dentro dos limites ajustados
+                            child[j] = np.clip(new_gene, bounds[0][j], bounds[1][j]) # Garante que o filho esteja dentro dos limites
                         children.append(child) # Adiciona o filho à lista de filhos
                         # --- DEBUG ---
                         #print(f"Geração {generation + 1}, pais: x({parent1[0]:.2f}, {parent1[1]:.2f}), y({parent2[0]:.2f}, {parent2[1]:.2f}) -> filho: ({child[0]:.2f}, {child[1]:.2f})")
