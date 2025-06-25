@@ -29,6 +29,7 @@ def ga(num_individuals: int, max_generations: int, bounds: tuple, crossover_rate
     population_history = []
     fitness_history = []
     
+    # Inicializa o melhor global
     best_overall_fitness = np.inf
     best_overall_individual = None
 
@@ -53,29 +54,40 @@ def ga(num_individuals: int, max_generations: int, bounds: tuple, crossover_rate
             mating_pool.append(population[winner_index])
 
         # --- BLEND CROSSOVER ---
-        for i in range(0, len(mating_pool), 2): # Itera sobre o pool de pais de 2 em 2
+        i = 0
+        alpha = 0.5 # Fator de mistura
+        while len(new_population) < num_individuals: # Enquanto a nova população não estiver completa
             parent1 = mating_pool[i]
-            if i + 1 < len(mating_pool):
-                parent2 = mating_pool[i+1]
-                if np.random.rand() < crossover_rate:
-                    alpha = 1.0 # Fator de ajuste para o crossover (0 a 1
-                    children = []
-                    for _ in range(2): # Gera dois filhos de cada par de pais
-                        child = np.zeros_like(parent1) # Inicializa o filho com zeros na mesma forma que os pais
-                        for j in range(len(parent1)): # Para cada gene do indivíduo, cada gene é uma coordenada (x, y)
-                            d = np.abs(parent1[j] - parent2[j]) # Distância entre os pais
-                            min_val = min(parent1[j], parent2[j]) - alpha * d # Ajuste do limite inferior
-                            max_val = max(parent1[j], parent2[j]) + alpha * d # Ajuste do limite superior
-                            new_gene = np.random.uniform(min_val, max_val) # Gera o filho aleatoriamente dentro dos limites ajustados
-                            child[j] = np.clip(new_gene, bounds[0][j], bounds[1][j]) # Garante que o filho esteja dentro dos limites
-                        children.append(child) # Adiciona o filho à lista de filhos
-                        # --- DEBUG ---
-                        #print(f"Geração {generation + 1}, pais: x({parent1[0]:.2f}, {parent1[1]:.2f}), y({parent2[0]:.2f}, {parent2[1]:.2f}) -> filho: ({child[0]:.2f}, {child[1]:.2f})")
-                        # --- FIM DEBUG ---
-                    new_population.extend(children) # Adiciona os filhos à nova população
-                    new_population.extend([parent1, parent2])
+            if i + 1 >= len(mating_pool): # Condição de segurança para o último indivíduo em um pool de tamanho ímpar
+                new_population.append(parent1.copy())
+                break # Encerra o loop while
+                
+            parent2 = mating_pool[i+1]
+
+            if np.random.rand() < crossover_rate:
+                child1 = np.zeros_like(parent1) # Arrays que receberão os genes dos filhos
+                child2 = np.zeros_like(parent2)
+                
+                for j in range(len(parent1)): # Itera sobre cada gene (x, y)
+                    distancia = np.abs(parent1[j] - parent2[j])
+                    min_val = min(parent1[j], parent2[j]) - alpha * distancia
+                    max_val = max(parent1[j], parent2[j]) + alpha * distancia
+                    
+                    new_gene1 = np.random.uniform(min_val, max_val)
+                    new_gene2 = np.random.uniform(min_val, max_val)
+                    
+                    child1[j] = np.clip(new_gene1, bounds[0][j], bounds[1][j])
+                    child2[j] = np.clip(new_gene2, bounds[0][j], bounds[1][j])
+
+                new_population.append(child1) # Adiciona o primeiro filho à nova população
+                if len(new_population) < num_individuals: # Verifica se ainda há espaço para o segundo filho
+                    new_population.append(child2) # Adiciona o segundo filho à nova população
             else:
-                new_population.append(parent1)
+                new_population.append(parent1.copy()) # Se não houver crossover, os pais sobrevivem
+                if len(new_population) < num_individuals:
+                    new_population.append(parent2.copy())
+            
+            i += 2 # Avança para o próximo par de pais
         
         population = np.array(new_population)
 
@@ -94,7 +106,7 @@ def ga(num_individuals: int, max_generations: int, bounds: tuple, crossover_rate
             best_overall_fitness = fitness[current_best_index]
             best_overall_individual = population[current_best_index].copy()
         
-        # --- PARADA POR TOLERÂNCIA E PACIÊNCIA ---
+        # --- PARADA POR TOLERÂNCIA ---
         improvement = last_overall_best_fitness - best_overall_fitness
         if improvement > tolerance:
             stagnation_counter = 0
