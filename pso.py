@@ -80,7 +80,7 @@ def pso(num_particles: int, max_iterations: int, bounds: tuple, cognitive_coeff:
             stagnation_counter += 1
             
         if stagnation_counter >= patience:
-            print(f"Convergência atingida na iteração {iteration + 1} devido à estagnação.")
+            print(f"Convergência atingida na iteração {iteration} devido à estagnação.")
             last_global_best_fitness = current_global_best_fitness
             break
 

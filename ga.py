@@ -114,7 +114,7 @@ def ga(num_individuals: int, max_generations: int, bounds: tuple, crossover_rate
             stagnation_counter += 1
         
         if stagnation_counter >= patience:
-            print(f"Convergência atingida na geração {generation + 1} devido à estagnação.")
+            print(f"Convergência atingida na geração {generation} devido à estagnação.")
             # Adiciona o último estado antes de parar, para a animação ficar completa
             population_history.append(population.copy())
             fitness_history.append(fitness.copy())
