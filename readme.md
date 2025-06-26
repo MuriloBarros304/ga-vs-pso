@@ -4,8 +4,7 @@ Este projeto tem como objetivo comparar dois algoritmos de otimização iterativ
 - Enxame de partículas
 
 Para esse comparativo, foi utilizada uma função objetivo híbrida e customizada, que foi intencionalmente projetada para ser desafiadora. Ela combina as características de múltiplas funções de benchmark clássicas, como Rosenbrock, Schwefel e Ackley, resultando em uma paisagem de otimização complexa, multimodal e não-separável, ideal para testar a robustez e a capacidade de exploração dos algoritmos.
-<img src="imgs/funcao_objetivo.png" width="200" alt="Função objetivo para minimização">
-
+<center><img src="imgs/funcao_objetivo.png" width="600" alt="Função objetivo para minimização" ></center>
 Foram feitos diferentes testes com diferentes configurações, de forma que fossem exploradas algumas particularidades de cada algoritmo. No geral, o PSO se mostrou mais apto para otimizar o mínimo global da função.
 
 # Configurações
