@@ -2,18 +2,11 @@
 Este projeto tem como objetivo comparar dois algoritmos de otimização iterativos:
 - Algortimo genético
 - Enxame de partículas
+
 Para esse comparativo, foi utilizada uma função objetivo híbrida e customizada, que foi intencionalmente projetada para ser desafiadora. Ela combina as características de múltiplas funções de benchmark clássicas, como Rosenbrock, Schwefel e Ackley, resultando em uma paisagem de otimização complexa, multimodal e não-separável, ideal para testar a robustez e a capacidade de exploração dos algoritmos.
-![Visualização da função objetivo utilizada para comparação dos métodos](imgs/funcao_objetivo.png)
+<img src="imgs/funcao_objetivo.png" width="200" alt="Função objetivo para minimização">
 
 Foram feitos diferentes testes com diferentes configurações, de forma que fossem exploradas algumas particularidades de cada algoritmo. No geral, o PSO se mostrou mais apto para otimizar o mínimo global da função.
-
-# Resultados
-Ambos com configuração otimizada
-### Animação do Algoritmo Genético (GA)
-![Animação do Algoritmo Genético mostrando a convergência da população](imgs/ga_animation.gif)
-
-### Animação do Enxame de Partículas (PSO)
-![Animação do PSO mostrando as partículas convergindo para o ótimo](imgs/pso_animation.gif)
 
 # Configurações
 As diferentes configurações são:
@@ -99,3 +92,11 @@ As diferentes configurações são:
     'tolerance': 1e-1,
     'patience': 3
 ```
+
+# Resultados
+Ambos com configuração otimizada
+### Animação do Algoritmo Genético (GA)
+![Animação do Algoritmo Genético mostrando a convergência da população](imgs/ga_animation.gif)
+
+### Animação do Enxame de Partículas (PSO)
+![Animação do PSO mostrando as partículas convergindo para o ótimo](imgs/pso_animation.gif)
