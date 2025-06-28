@@ -1,4 +1,4 @@
-from function import objective_function
+from function import ObjectiveFunction
 from ga import ga
 from animator import create_animation
 
@@ -21,11 +21,10 @@ def run_ga_and_animate(params: dict):
     create_animation(
         population_history=population_history,
         fitness_history=fitness_history,
-        objective_function=objective_function,
+        objective_function=params['obj_func'],
         bounds=params['bounds'],
         filename="animacoes/ga_animation.mp4",
         title="GA",
         particle_color='green',
         particle_label='Indivíduos'
     )
-    print("------------------------------------------\n")

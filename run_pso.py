@@ -1,4 +1,4 @@
-from function import objective_function
+from function import ObjectiveFunction
 from pso import pso
 from animator import create_animation
 
@@ -21,11 +21,10 @@ def run_pso_and_animate(params: dict):
     create_animation(
         population_history=pos_history,
         fitness_history=fitness_history,
-        objective_function=objective_function,
+        objective_function=params['obj_func'],
         bounds=params['bounds'],
         filename="animacoes/pso_animation.mp4",
         title="PSO",
         particle_color='blue',
         particle_label='Partículas'
     )
-    print("-------------------------------------------\n")

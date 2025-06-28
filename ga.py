@@ -1,12 +1,13 @@
-from function import objective_function
+from function import ObjectiveFunction
 import numpy as np
 
-def ga(num_individuals: int, max_generations: int, bounds: tuple, crossover_rate: float=0.9,
+def ga(obj_func: ObjectiveFunction, num_individuals: int, max_generations: int, bounds: tuple, crossover_rate: float=0.9,
         mutation_rate: float=0.5, mutation_strength: float=1.0, elitism_size: int=1,
         tournament_size: int=3, tolerance: float=1e-6, patience: int=10) -> tuple:
     """
     Algoritmo Genético para otimização de uma função objetivo.
     Args:
+        obj_func (ObjectiveFunction): Instância da função objetivo a ser minimizada.
         num_individuals (int): Número de indivíduos na população.
         max_generations (int): Número máximo de gerações.
         bounds (tuple): Limites inferior e superior para os indivíduos.
@@ -23,11 +24,11 @@ def ga(num_individuals: int, max_generations: int, bounds: tuple, crossover_rate
     
     # --- INICIALIZAÇÃO ---
     population = np.random.uniform(bounds[0], bounds[1], (num_individuals, 2))
-    fitness = objective_function(population[:, 0], population[:, 1])
+    fitness = obj_func(population[:, 0], population[:, 1])
     
     # --- HISTÓRICO ---
-    population_history = []
-    fitness_history = []
+    population_history = [population.copy()] # Armazena o histórico da população
+    fitness_history = [fitness.copy()] # Armazena o histórico de fitness
     
     # Inicializa o melhor global
     best_overall_fitness = np.inf
@@ -39,9 +40,6 @@ def ga(num_individuals: int, max_generations: int, bounds: tuple, crossover_rate
 
     # --- CICLO EVOLUTIVO ---
     for generation in range(max_generations):
-        population_history.append(population.copy())
-        fitness_history.append(fitness.copy())
-
         # --- ELITISMO ---
         elite_indices = np.argsort(fitness)[:elitism_size] # Seleciona os 'elitism_size' melhores indivíduos
         new_population = [population[i].copy() for i in elite_indices] # A nova população começa com os indivíduos de elite
@@ -86,6 +84,9 @@ def ga(num_individuals: int, max_generations: int, bounds: tuple, crossover_rate
                 new_population.append(parent1.copy()) # Se não houver crossover, os pais sobrevivem
                 if len(new_population) < num_individuals:
                     new_population.append(parent2.copy())
+            # --- DEBUG ---
+            # print(f"P1: ({parent1[0]:.2f}, {parent1[1]:.4f}) ; P2: ({parent2[0]:.4f}, {parent2[1]:.4f})   ->   C1: ({new_population[-2][0]:.4f}, {new_population[-2][1]:.4f}) , ({new_population[-1][0] if len(new_population) % 2 == 0 else 'N/A':.4f}, {new_population[-1][1] if len(new_population) % 2 == 0 else 'N/A':.4f})")
+            # --- FIM DEBUG ---
             
             i += 2 # Avança para o próximo par de pais
         
@@ -98,7 +99,7 @@ def ga(num_individuals: int, max_generations: int, bounds: tuple, crossover_rate
             mutation_candidates[mask] += np.random.normal(0, mutation_strength, size=mutation_candidates[mask].shape)
         
         population = np.clip(population, bounds[0], bounds[1])
-        fitness = objective_function(population[:, 0], population[:, 1])
+        fitness = obj_func(population[:, 0], population[:, 1])
 
         # --- ATUALIZAÇÃO DO MELHOR GLOBAL ---
         current_best_index = np.argmin(fitness)
@@ -121,6 +122,9 @@ def ga(num_individuals: int, max_generations: int, bounds: tuple, crossover_rate
             break
             
         last_overall_best_fitness = best_overall_fitness
+
+        population_history.append(population.copy())
+        fitness_history.append(fitness.copy())
     
     # Garante que o último estado seja salvo se o loop terminar por max_generations
     if len(population_history) == max_generations:
