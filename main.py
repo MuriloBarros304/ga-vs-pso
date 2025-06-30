@@ -34,8 +34,6 @@ GA_CONFIG = {
 if __name__ == '__main__':
     function.reset()
     run_pso_and_animate(params=PSO_CONFIG)
-    print(f"Número total de avaliações da função para o PSO: {function.evaluations}\n")
     
     function.reset()
     run_ga_and_animate(params=GA_CONFIG)
-    print(f"Número total de avaliações da função para o GA: {function.evaluations}")

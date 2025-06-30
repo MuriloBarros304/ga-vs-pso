@@ -8,6 +8,8 @@ class ObjectiveFunction:
     def __init__(self):
         """Inicializa o contador de avaliações."""
         self.evaluations = 0
+        self.multiplications = 0
+        self.divisions = 0
 
     def __call__(self, X, Y):
         """
@@ -26,11 +28,12 @@ class ObjectiveFunction:
             X: Array representando as coordenadas X.
             Y: Array representando as coordenadas Y.
         Returns:
-            Array 1D com os valores da função objetivo calculados para cada par (X, Y).
+            final_result: O resultado da função objetivo w1 + w4.
         """
 
         # Incrementa o contador pelo número de indivíduos/partículas sendo avaliados
-        self.evaluations += np.size(X)
+        num_elements = np.size(X)
+        self.evaluations += num_elements
 
         # ==============================================================================
         # ============== 1: Calcular os componentes base (z, r, Fobj) ==================
@@ -38,17 +41,23 @@ class ObjectiveFunction:
 
         # Componente Z (Função de Schwefel), usa as coordenadas originais
         Z_func = -X * np.sin(np.sqrt(np.abs(X))) - Y * np.sin(np.sqrt(np.abs(Y)))
+        self.multiplications += 2 * num_elements
+        self.divisions += np.size(X)
 
         # Reescalonar X e Y para os cálculos de Rosenbrock e Ackley/Schaffer
         X_scaled = X / 250.0
         Y_scaled = Y / 250.0
+        self.divisions += 2 * num_elements
         
         # Componente R (Função de Rosenbrock), usa as coordenadas reescalonadas
         R_func = 100 * (Y_scaled - X_scaled**2)**2 + (1 - X_scaled)**2
+        self.multiplications += 4 * num_elements
 
         # Cálculo dos componentes para Fobj
         x1 = 25 * X_scaled
         x2 = 25 * Y_scaled
+        self.multiplications += 2 * num_elements
+
         a = 500
         b = 0.1
         c = 0.5 * np.pi
@@ -56,15 +65,20 @@ class ObjectiveFunction:
         # Componente F10 (Função de Ackley)
         F10 = -a * np.exp(-b * np.sqrt((x1**2 + x2**2) / 2)) - \
             np.exp((np.cos(c * x1) + np.cos(c * x2)) / 2) + np.exp(1)
+        self.multiplications += 5 * num_elements
+        self.divisions += 2 * num_elements
 
         # Componente zsh (Função tipo Schaffer)
         epsilon = 1e-9
         zsh_numerator = (np.sin(np.sqrt(x1**2 + x2**2)))**2 - 0.5
         zsh_denominator = (1 + 0.1 * (x1**2 + x2**2))**2
         zsh = 0.5 - zsh_numerator / (zsh_denominator + epsilon)
+        self.multiplications += 4 * num_elements
+        self.divisions += 1 * num_elements
         
         # Componente Fobj final
         Fobj = F10 * zsh
+        self.multiplications += num_elements
 
         # ==============================================================================
         # ===================== 2: Montar w1, w4 e somá-las ============================
@@ -75,6 +89,7 @@ class ObjectiveFunction:
 
         # Cálculo de w4
         w4_val = np.sqrt(R_func**2 + Z_func**2) + Fobj
+        self.multiplications += 2 * num_elements
         
         # A função objetivo final é a soma das duas
         final_result = w1_val + w4_val
@@ -84,3 +99,5 @@ class ObjectiveFunction:
     def reset(self):
         """ Reseta o contador de avaliações para uma nova execução de algoritmo. """
         self.evaluations = 0
+        self.multiplications = 0
+        self.divisions = 0

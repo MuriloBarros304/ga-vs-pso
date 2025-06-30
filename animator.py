@@ -1,10 +1,8 @@
-# animator.py
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
 
-def create_animation(population_history, fitness_history, objective_function, bounds, filename="animation.mp4", title="Animação de Otimização", particle_color='blue', particle_label='Partículas'
-):
+def create_animation(population_history, fitness_history, objective_function, bounds, filename="animation.mp4", title="Animação de Otimização", particle_color='blue', particle_label='Partículas'):
     """
     Cria e salva uma animação do processo de otimização.
 

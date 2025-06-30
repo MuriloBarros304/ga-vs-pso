@@ -21,6 +21,7 @@ def pso(obj_func: ObjectiveFunction, num_particles: int, max_iterations: int, bo
     particles = np.random.uniform(bounds[0], bounds[1], (num_particles, 2))
     velocities = np.zeros_like(particles)
     fitness = obj_func(particles[:, 0], particles[:, 1])
+    counter = 0 # Contador de multiplicações
     
     personal_best_positions = particles.copy()
     personal_best_fitness = fitness.copy()
@@ -39,9 +40,12 @@ def pso(obj_func: ObjectiveFunction, num_particles: int, max_iterations: int, bo
         r2 = np.random.rand(num_particles, 2) # Fator aleatório para componente social
 
         cognitive_component = cognitive_coeff * r1 * (personal_best_positions - particles)
+        counter += 2 * particles.size # Contabiliza as multiplicações
         social_component = social_coeff * r2 * (global_best_position - particles)
+        counter += 2 * particles.size # Contabiliza as multiplicações
         
         velocities = (inertia_weight * velocities) + cognitive_component + social_component # Atualiza as velocidades
+        counter += particles.size # Contabiliza as multiplicações
         
         particles += velocities # Atualiza as posições das partículas adicionando as velocidades
         particles = np.clip(particles, bounds[0], bounds[1]) # Garante que as partículas permaneçam dentro dos limites
@@ -84,4 +88,4 @@ def pso(obj_func: ObjectiveFunction, num_particles: int, max_iterations: int, bo
         fitness_history.append(fitness.copy())
 
     final_cost = obj_func(global_best_position[0], global_best_position[1])
-    return global_best_position, final_cost, pos_history, fitness_history
+    return global_best_position, final_cost, pos_history, fitness_history, counter

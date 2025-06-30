@@ -11,11 +11,17 @@ def run_ga_and_animate(params: dict):
     
     # --- EXECUÇÃO DO GA ---
     print('------------ GA -------------')
-    best_ind, best_cost, population_history, fitness_history = ga(**params)
+    best_ind, best_cost, population_history, fitness_history, cont = ga(**params)
     
     # --- EXIBIÇÃO DOS RESULTADOS ---
-    print(f"Melhor indivíduo encontrado: ({best_ind[0]:.4f}, {best_ind[1]:.4f})")
-    print(f"Valor da função no ponto ótimo (Z): {best_cost:.4f}")
+    total_evaluations = params['obj_func'].evaluations
+    total_multiplications = params['obj_func'].multiplications + cont
+    total_divisions = params['obj_func'].divisions
+    print(f"Ponto ótimo: ({best_ind[0]:.4f}, {best_ind[1]:.4f})")
+    print(f"Z ótimo: {best_cost:.4f}")
+    print(f"Avaliações da função: {total_evaluations}")
+    print(f"Multiplicações: {total_multiplications}")
+    print(f"Divisões: {total_divisions}")
 
     # --- GERAÇÃO DA ANIMAÇÃO ---
     create_animation(

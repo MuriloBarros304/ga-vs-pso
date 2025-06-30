@@ -1,9 +1,10 @@
 from function import ObjectiveFunction
 import numpy as np
 
-def ga(obj_func: ObjectiveFunction, num_individuals: int, max_generations: int, bounds: tuple, crossover_rate: float=0.9,
-        mutation_rate: float=0.5, mutation_strength: float=1.0, elitism_size: int=1,
-        tournament_size: int=3, tolerance: float=1e-6, patience: int=10) -> tuple:
+def ga(obj_func: ObjectiveFunction, num_individuals: int, max_generations: int,
+        bounds: tuple, crossover_rate: float=0.9, mutation_rate: float=0.5,
+        mutation_strength: float=1.0, elitism_size: int=1, tournament_size: int=3,
+        tolerance: float=1e-6, patience: int=10) -> tuple:
     """
     Algoritmo Genético para otimização de uma função objetivo.
     Args:
@@ -25,6 +26,7 @@ def ga(obj_func: ObjectiveFunction, num_individuals: int, max_generations: int, 
     # --- INICIALIZAÇÃO ---
     population = np.random.uniform(bounds[0], bounds[1], (num_individuals, 2))
     fitness = obj_func(population[:, 0], population[:, 1])
+    counter = 0
     
     # --- HISTÓRICO ---
     population_history = [population.copy()] # Armazena o histórico da população
@@ -70,6 +72,7 @@ def ga(obj_func: ObjectiveFunction, num_individuals: int, max_generations: int, 
                     d = np.abs(parent1[j] - parent2[j])
                     min_val = min(parent1[j], parent2[j]) - alpha * d
                     max_val = max(parent1[j], parent2[j]) + alpha * d
+                    counter += 2 # Contabiliza as multiplicações
                     
                     new_gene1 = np.random.uniform(min_val, max_val)
                     new_gene2 = np.random.uniform(min_val, max_val)
@@ -97,6 +100,8 @@ def ga(obj_func: ObjectiveFunction, num_individuals: int, max_generations: int, 
             mutation_candidates = population[elitism_size:] # Todos os indivíduos exceto os de elite
             mask = np.random.rand(*mutation_candidates.shape) < mutation_rate
             mutation_candidates[mask] += np.random.normal(0, mutation_strength, size=mutation_candidates[mask].shape)
+            num_mutations = np.sum(mask)
+            counter += num_mutations
         
         population = np.clip(population, bounds[0], bounds[1])
         fitness = obj_func(population[:, 0], population[:, 1])
@@ -132,4 +137,4 @@ def ga(obj_func: ObjectiveFunction, num_individuals: int, max_generations: int, 
         population_history.append(population.copy())
         fitness_history.append(fitness.copy())
 
-    return best_overall_individual, best_overall_fitness, population_history, fitness_history
+    return best_overall_individual, best_overall_fitness, population_history, fitness_history, counter
