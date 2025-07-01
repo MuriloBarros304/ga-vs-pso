@@ -14,10 +14,10 @@ def run_pso_and_animate(params: dict):
 
     # --- EXIBIÇÃO DOS RESULTADOS ---
     total_evaluations = params['obj_func'].evaluations
-    total_multiplications = params['obj_func'].multiplications + cont
-    total_divisions = params['obj_func'].divisions
-    print(f"Ponto ótimo: ({best_pos[0]:.4f}, {best_pos[1]:.4f})")
-    print(f"Z ótimo: {best_cost:.4f}")
+    total_multiplications = params['obj_func'].multiplications + cont['multiplications']
+    total_divisions = params['obj_func'].divisions + cont['divisions']
+    print(f"Ponto ótimo: ({best_pos[0]:.8f}, {best_pos[1]:.8f})")
+    print(f"Z ótimo: {best_cost:.8f}")
     print(f"Avaliações da função: {total_evaluations}")
     print(f"Multiplicações: {total_multiplications}")
     print(f"Divisões: {total_divisions}\n")

@@ -2,8 +2,7 @@ import numpy as np
 
 class ObjectiveFunction:
     """
-    Uma classe que encapsula a função objetivo e conta suas avaliações.
-    O método __call__ permite que instâncias desta classe sejam chamadas como funções.
+    Classe que representa a função objetivo w1 + w4, baseada no código Scilab.
     """
     def __init__(self):
         """Inicializa o contador de avaliações."""

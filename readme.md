@@ -19,7 +19,8 @@ As diferentes configurações são:
     'bounds': (np.array([-500, -500]), np.array([500, 500])),
     'cognitive_coeff': 1.5,
     'social_coeff': 1.5,
-    'inertia_weight': 0.5,
+    'min_w': 0.01,
+    'max_w': 0.5,
     'tolerance': 1e-5,
     'patience': 10
 ```
@@ -29,10 +30,9 @@ As diferentes configurações são:
     'max_generations': 100,
     'bounds': (np.array([-500, -500]), np.array([500, 500])),
     'mutation_rate': 0.15,
-    'mutation_strength': 15.0,
+    'mutation_strength': 10.0,
     'crossover_rate': 0.85,
     'elitism_size': 4,
-    'tournament_size': 3,
     'tolerance': 1e-5,
     'patience': 10
 ```
@@ -42,13 +42,14 @@ As diferentes configurações são:
 - Baixo custo computacional
 ### PSO
 ```python
-    'num_particles': 40,
-    'max_iterations': 30,
+    'num_particles': 15,
+    'max_iterations': 60,
     'bounds': (np.array([-500, -500]), np.array([500, 500])),
     'cognitive_coeff': 1.2,
-    'social_coeff': 1.0,
-    'inertia_weight': 0.3,
-    'tolerance': 1e-2,
+    'social_coeff': 0.8,
+    'min_w': 0.01,
+    'max_w': 0.3,
+    'tolerance': 1e-3,
     'patience': 5
 ```
 ### GA
@@ -60,7 +61,6 @@ As diferentes configurações são:
     'mutation_strength': 5.0,
     'crossover_rate': 0.9,
     'elitism_size': 2,
-    'tournament_size': 3,
     'tolerance': 1e-4,
     'patience': 5
 ```
@@ -74,7 +74,8 @@ As diferentes configurações são:
     'bounds': (np.array([-500, -500]), np.array([500, 500])),
     'cognitive_coeff': 0.5,
     'social_coeff': 0.8,
-    'inertia_weight': 0.5,
+    'min_w': 0.01,
+    'max_w': 0.6,
     'tolerance': 1e-1,
     'patience': 3
 ```
@@ -87,7 +88,6 @@ As diferentes configurações são:
     'mutation_strength': 5.0,
     'crossover_rate': 0.9,
     'elitism_size': 2,
-    'tournament_size': 3,
     'tolerance': 1e-1,
     'patience': 3
 ```

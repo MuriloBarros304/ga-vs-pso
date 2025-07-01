@@ -3,8 +3,8 @@ import numpy as np
 
 def ga(obj_func: ObjectiveFunction, num_individuals: int, max_generations: int,
         bounds: tuple, crossover_rate: float=0.9, mutation_rate: float=0.5,
-        mutation_strength: float=1.0, elitism_size: int=1, tournament_size: int=3,
-        tolerance: float=1e-6, patience: int=10) -> tuple:
+        mutation_strength: float=1.0, elitism_size: int=1, tolerance: float=1e-6,
+        patience: int=10) -> tuple:
     """
     Algoritmo Genético para otimização de uma função objetivo.
     Args:
@@ -16,7 +16,6 @@ def ga(obj_func: ObjectiveFunction, num_individuals: int, max_generations: int,
         mutation_rate (float): Taxa de mutação.
         mutation_strength (float): Força da mutação.
         elitism_size (int): Número de indivíduos a serem mantidos na próxima geração (elitismo).
-        tournament_size (int): Tamanho do torneio para seleção.
         tolerance (float): Tolerância para considerar convergência.
         patience (int): Número de gerações sem melhoria antes de parar.
     Returns:
@@ -26,7 +25,7 @@ def ga(obj_func: ObjectiveFunction, num_individuals: int, max_generations: int,
     # --- INICIALIZAÇÃO ---
     population = np.random.uniform(bounds[0], bounds[1], (num_individuals, 2))
     fitness = obj_func(population[:, 0], population[:, 1])
-    counter = 0
+    counter = {'multiplications': 0, 'divisions': 0} # Contador de operações
     
     # --- HISTÓRICO ---
     population_history = [population.copy()] # Armazena o histórico da população
@@ -42,16 +41,39 @@ def ga(obj_func: ObjectiveFunction, num_individuals: int, max_generations: int,
 
     # --- CICLO EVOLUTIVO ---
     for generation in range(max_generations):
+
         # --- ELITISMO ---
         elite_indices = np.argsort(fitness)[:elitism_size] # Seleciona os 'elitism_size' melhores indivíduos
         new_population = [population[i].copy() for i in elite_indices] # A nova população começa com os indivíduos de elite
 
-        # --- SELEÇÃO POR TORNEIO ---
-        mating_pool = [] # Lista para armazenar os pais selecionados no torneio
-        for _ in range(num_individuals - elitism_size): # Preencher o restante da população
-            competitor_indices = np.random.choice(num_individuals, tournament_size, replace=False)
-            winner_index = competitor_indices[np.argmin(fitness[competitor_indices])]
-            mating_pool.append(population[winner_index])
+        # --- SELEÇÃO POR ROLETA ---
+        # Aptidão é a diferença entre o pior fitness e o fitness de cada indivíduo
+        # A aptidões são normalizadas para probabilidades de seleção, indivíduos mais aptos têm maior chance de serem selecionados
+        num_parents_to_select = num_individuals - elitism_size # Número de pais a serem selecionados
+        
+        ranked_indices = np.argsort(fitness) # Índices dos indivíduos ordenados por fitness
+        rank_aptitude = np.arange(num_individuals, 0, -1) # Lista de aptidões, de num_individuals a 1
+
+        total_aptitude = np.sum(rank_aptitude) # Soma das aptidões
+        if total_aptitude == 0:
+            # Caso raro onde todos os indivíduos têm o mesmo fitness máximo
+            selection_probabilities = np.full(num_individuals, 1 / num_individuals)
+            counter['divisions'] += num_individuals # Contabiliza as divisões
+        else:
+            selection_probabilities = rank_aptitude / total_aptitude
+            counter['divisions'] += num_individuals # Contabiliza as divisões
+
+        final_probabilities = np.zeros(num_individuals) # Inicializa as probabilidades finais
+        final_probabilities[ranked_indices] = selection_probabilities # Atribui as probabil
+        
+        parent_indices = np.random.choice( # Sorteia com base nas probabilidades de seleção
+            a=num_individuals,
+            size=num_parents_to_select,
+            replace=True,
+            p=final_probabilities
+        )
+
+        mating_pool = population[parent_indices] # Cria o pool de pais selecionados
 
         # --- BLEND CROSSOVER (BLX-⍺) ---
         i = 0
@@ -72,7 +94,7 @@ def ga(obj_func: ObjectiveFunction, num_individuals: int, max_generations: int,
                     d = np.abs(parent1[j] - parent2[j])
                     min_val = min(parent1[j], parent2[j]) - alpha * d
                     max_val = max(parent1[j], parent2[j]) + alpha * d
-                    counter += 2 # Contabiliza as multiplicações
+                    counter['multiplications'] += 2 # Contabiliza as multiplicações
                     
                     new_gene1 = np.random.uniform(min_val, max_val)
                     new_gene2 = np.random.uniform(min_val, max_val)
@@ -88,7 +110,7 @@ def ga(obj_func: ObjectiveFunction, num_individuals: int, max_generations: int,
                 if len(new_population) < num_individuals:
                     new_population.append(parent2.copy())
             # --- DEBUG ---
-            # print(f"P1: ({parent1[0]:.2f}, {parent1[1]:.4f}) ; P2: ({parent2[0]:.4f}, {parent2[1]:.4f})   ->   C1: ({new_population[-2][0]:.4f}, {new_population[-2][1]:.4f}) , ({new_population[-1][0] if len(new_population) % 2 == 0 else 'N/A':.4f}, {new_population[-1][1] if len(new_population) % 2 == 0 else 'N/A':.4f})")
+            # print(f"P1: ({parent1[0]:.2f}, {parent1[1]:.2f}) ; P2: ({parent2[0]:.2f}, {parent2[1]:.2f})   ->   C1: ({new_population[-2][0]:.2f}, {new_population[-2][1]:.2f}) , ({new_population[-1][0] if len(new_population) % 2 == 0 else 'N/A':.2f}, {new_population[-1][1] if len(new_population) % 2 == 0 else 'N/A':.2f})")
             # --- FIM DEBUG ---
             
             i += 2 # Avança para o próximo par de pais
@@ -101,9 +123,12 @@ def ga(obj_func: ObjectiveFunction, num_individuals: int, max_generations: int,
             mask = np.random.rand(*mutation_candidates.shape) < mutation_rate
             mutation_candidates[mask] += np.random.normal(0, mutation_strength, size=mutation_candidates[mask].shape)
             num_mutations = np.sum(mask)
-            counter += num_mutations
+            counter['multiplications'] += num_mutations
+
+        cliped_population = np.clip(population, bounds[0], bounds[1]) # Garante que os indivíduos estejam dentro dos limites
         
-        population = np.clip(population, bounds[0], bounds[1])
+        population = cliped_population
+
         fitness = obj_func(population[:, 0], population[:, 1])
 
         # --- ATUALIZAÇÃO DO MELHOR GLOBAL ---
@@ -112,29 +137,24 @@ def ga(obj_func: ObjectiveFunction, num_individuals: int, max_generations: int,
             best_overall_fitness = fitness[current_best_index]
             best_overall_individual = population[current_best_index].copy()
         
+        population_history.append(population.copy()) # Armazena o estado atual da população
+        fitness_history.append(fitness.copy())
+        
         # --- PARADA POR TOLERÂNCIA ---
         improvement = last_overall_best_fitness - best_overall_fitness
-        if improvement > tolerance:
+        if improvement > tolerance: # Se houve melhoria significativa
             stagnation_counter = 0
         else:
             stagnation_counter += 1
         
-        if stagnation_counter >= patience:
+        if stagnation_counter >= patience: # Se acabou a paciência
             print(f"Convergência atingida na geração {generation} devido à estagnação.")
-            # Adiciona o último estado antes de parar, para a animação ficar completa
-            population_history.append(population.copy())
-            fitness_history.append(fitness.copy())
             break
             
-        last_overall_best_fitness = best_overall_fitness
-
-        population_history.append(population.copy())
-        fitness_history.append(fitness.copy())
+        last_overall_best_fitness = best_overall_fitness # Para ser usado na próxima iteração
     
     # Garante que o último estado seja salvo se o loop terminar por max_generations
-    if len(population_history) == max_generations:
+    if generation + 1 == max_generations:
         print(f"Número máximo de gerações ({max_generations}) atingido.")
-        population_history.append(population.copy())
-        fitness_history.append(fitness.copy())
 
     return best_overall_individual, best_overall_fitness, population_history, fitness_history, counter

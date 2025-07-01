@@ -47,7 +47,7 @@ def create_animation(population_history, fitness_history, objective_function, bo
         # Formatação dos eixos e títulos
         ax.set_xlabel("X")
         ax.set_ylabel("Y")
-        ax.set_title(f'{title} - Iteração {i}/{actual_iterations} | Melhor Z: {current_fitness:.2f}', fontsize=16)
+        ax.set_title(f'{title} - Iteração {i}/{actual_iterations-1} | Melhor Z: {current_fitness:.8f}', fontsize=16)
         ax.legend(loc='upper right', fontsize=12)
         ax.set_xlim(bounds[0][0], bounds[1][0])
         ax.set_ylim(bounds[0][1], bounds[1][1])
