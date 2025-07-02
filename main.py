@@ -7,28 +7,28 @@ function = ObjectiveFunction()
 
 PSO_CONFIG = {
     'obj_func': function,
-    'num_particles': 15,
-    'max_iterations': 60,
+    'num_particles': 40,
+    'max_iterations': 50,
     'bounds': (np.array([-500, -500]), np.array([500, 500])),
-    'cognitive_coeff': 1.2,
-    'social_coeff': 0.8,
+    'cognitive_coeff': 0.5,
+    'social_coeff': 0.4,
     'min_w': 0.01,
-    'max_w': 0.3,
+    'max_w': 0.75,
     'tolerance': 1e-3,
-    'patience': 5
+    'patience': 10
 }
 
 GA_CONFIG = {
     'obj_func': function,
-    'num_individuals': 25,
-    'max_generations': 60,
+    'num_individuals': 40,
+    'max_generations': 65,
     'bounds': (np.array([-500, -500]), np.array([500, 500])),
-    'mutation_rate': 0.25,
-    'mutation_strength': 10,
+    'mutation_rate': 0.07,
+    'mutation_strength': 20,
     'crossover_rate': 0.7,
-    'elitism_size': 5,
-    'tolerance': 1e-5,
-    'patience': 10
+    'elitism_size': 10,
+    'tolerance': 1e-3,
+    'patience': 5
 }
 
 if __name__ == '__main__':

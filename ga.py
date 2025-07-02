@@ -40,6 +40,7 @@ def ga(obj_func: ObjectiveFunction, num_individuals: int, max_generations: int,
     last_overall_best_fitness = np.inf
 
     # --- CICLO EVOLUTIVO ---
+    stagnation_reached = False
     for generation in range(max_generations):
 
         # --- ELITISMO ---
@@ -49,31 +50,40 @@ def ga(obj_func: ObjectiveFunction, num_individuals: int, max_generations: int,
         # --- SELEÇÃO POR ROLETA ---
         # Aptidão é a diferença entre o pior fitness e o fitness de cada indivíduo
         # A aptidões são normalizadas para probabilidades de seleção, indivíduos mais aptos têm maior chance de serem selecionados
+
+        """ non_elite_mask = np.ones(num_individuals, dtype=bool)
+        non_elite_mask[elite_indices] = False
+        non_elite_population = population[non_elite_mask]
+        non_elite_fitness = fitness[non_elite_mask]
+        non_elite_num_ind = len(non_elite_population) """
+        
         num_parents_to_select = num_individuals - elitism_size # Número de pais a serem selecionados
         
         ranked_indices = np.argsort(fitness) # Índices dos indivíduos ordenados por fitness
+        # ranked_indices = np.argsort(non_elite_fitness) # Sem elite
         rank_aptitude = np.arange(num_individuals, 0, -1) # Lista de aptidões, de num_individuals a 1
+        # rank_aptitude = np.arange(non_elite_num_ind, 0, -1) # Sem elite
 
         total_aptitude = np.sum(rank_aptitude) # Soma das aptidões
-        if total_aptitude == 0:
-            # Caso raro onde todos os indivíduos têm o mesmo fitness máximo
-            selection_probabilities = np.full(num_individuals, 1 / num_individuals)
-            counter['divisions'] += num_individuals # Contabiliza as divisões
-        else:
-            selection_probabilities = rank_aptitude / total_aptitude
-            counter['divisions'] += num_individuals # Contabiliza as divisões
+    
+        selection_probabilities = rank_aptitude / total_aptitude
+        counter['divisions'] += num_individuals # Contabiliza as divisões
+        # counter['divisions'] += non_elite_num_ind # Sem elite
 
         final_probabilities = np.zeros(num_individuals) # Inicializa as probabilidades finais
+        # final_probabilities = np.zeros(non_elite_num_ind) #Sem elite
         final_probabilities[ranked_indices] = selection_probabilities # Atribui as probabil
         
         parent_indices = np.random.choice( # Sorteia com base nas probabilidades de seleção
             a=num_individuals,
+            # a=non_elite_num_ind, # Sem elite
             size=num_parents_to_select,
             replace=True,
             p=final_probabilities
         )
 
         mating_pool = population[parent_indices] # Cria o pool de pais selecionados
+        # mating_pool = non_elite_population[parent_indices] # Sem elite
 
         # --- BLEND CROSSOVER (BLX-⍺) ---
         i = 0
@@ -148,13 +158,16 @@ def ga(obj_func: ObjectiveFunction, num_individuals: int, max_generations: int,
             stagnation_counter += 1
         
         if stagnation_counter >= patience: # Se acabou a paciência
-            print(f"Convergência atingida na geração {generation} devido à estagnação.")
+            stagnation_reached = True
+            last_overall_best_fitness = best_overall_fitness # Atualiza o melhor fitness para a próxima iteração
             break
             
         last_overall_best_fitness = best_overall_fitness # Para ser usado na próxima iteração
     
-    # Garante que o último estado seja salvo se o loop terminar por max_generations
-    if generation + 1 == max_generations:
-        print(f"Número máximo de gerações ({max_generations}) atingido.")
+    if stagnation_reached:
+        print(f"Convergência atingida na geração {generation + 1} devido à estagnação.")
+    else:
+        print(f"Número máximo de gerações ({max_generations}) atingido")
+        
 
     return best_overall_individual, best_overall_fitness, population_history, fitness_history, counter

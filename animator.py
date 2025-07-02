@@ -38,7 +38,7 @@ def create_animation(population_history, fitness_history, objective_function, bo
         current_fitness = np.min(fitness_history[i])
         
         # Desenha o fundo
-        ax.contourf(X, Y, Z_background, levels=fitness_levels, cmap='autumn', alpha=0.7, zorder=5)
+        ax.contourf(X, Y, Z_background, levels=fitness_levels, cmap='autumn', alpha=0.7, zorder=1)
         
         # Desenha as partículas/indivíduos
         ax.scatter(current_population[:, 0], current_population[:, 1], 

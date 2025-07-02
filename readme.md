@@ -42,27 +42,27 @@ As diferentes configurações são:
 - Baixo custo computacional
 ### PSO
 ```python
-    'num_particles': 15,
-    'max_iterations': 60,
+    'num_particles': 40,
+    'max_iterations': 50,
     'bounds': (np.array([-500, -500]), np.array([500, 500])),
-    'cognitive_coeff': 1.2,
-    'social_coeff': 0.8,
+    'cognitive_coeff': 0.5,
+    'social_coeff': 0.3,
     'min_w': 0.01,
-    'max_w': 0.3,
+    'max_w': 0.6,
     'tolerance': 1e-3,
     'patience': 5
 ```
 ### GA
 ```python
-    'num_individuals': 50,
-    'max_generations': 50,
+    'num_individuals': 40,
+    'max_generations': 65,
     'bounds': (np.array([-500, -500]), np.array([500, 500])),
-    'mutation_rate': 0.1,
-    'mutation_strength': 5.0,
-    'crossover_rate': 0.9,
-    'elitism_size': 2,
-    'tolerance': 1e-4,
-    'patience': 5
+    'mutation_rate': 0.07,
+    'mutation_strength': 15,
+    'crossover_rate': 0.7,
+    'elitism_size': 10,
+    'tolerance': 1e-3,
+    'patience': 10
 ```
 ## Razoável
 - 60% das vezes retorna o valor ótimo, precisão baixa

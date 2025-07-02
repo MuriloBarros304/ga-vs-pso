@@ -49,7 +49,7 @@ def pso(obj_func: ObjectiveFunction, num_particles: int, max_iterations: int, bo
         counter['multiplications'] += 2 * particles.size # Contabiliza as multiplicações
 
         # --- PESO DA INÉRCIA DECRESCENTE ---
-        inertia_weight = max_w - (max_w - min_w) * (iteration / max_iterations) # Peso da inércia decrescente
+        inertia_weight = max_w - ((max_w - min_w) * (iteration / max_iterations)) # Peso da inércia decrescente
         counter['divisions'] += num_particles # Contabiliza as divisões
         inertia_weight = max(min(inertia_weight, max_w), min_w) # Garante que o peso da inércia esteja dentro dos limites
         
@@ -83,9 +83,6 @@ def pso(obj_func: ObjectiveFunction, num_particles: int, max_iterations: int, bo
         pos_history.append(particles.copy())
         fitness_history.append(fitness.copy())
 
-        # --- DEBUG ---
-        # print(f"Iteração {iteration + 1}: Melhor posição: ({global_best_position[0]:.4f}, {global_best_position[1]:.4f}), Z ótimo: {current_global_best_fitness:.2f}, Melhoria: {improvement:.6f}")
-        # --- FIM DEBUG ---
 
         # --- VERIFICAÇÃO DE CONVERGÊNCIA ---
         if improvement > tolerance: # Se houve melhoria significativa
@@ -95,14 +92,19 @@ def pso(obj_func: ObjectiveFunction, num_particles: int, max_iterations: int, bo
             
         if stagnation_counter >= patience:
             stagnation_reached = True
+            last_global_best_fitness = current_global_best_fitness
             break
+
+        last_global_best_fitness = current_global_best_fitness # Para ser usado na próxima iteração
     
+        # --- DEBUG ---
+        # print(f"Iteração {iteration + 1}: Melhor posição: ({global_best_position[0]:.4f}, {global_best_position[1]:.4f}), Z ótimo: {current_global_best_fitness:.2f}, Melhoria: {improvement:.6f}")
+        # --- FIM DEBUG ---
+
     if stagnation_reached:
         print(f"Convergência atingida na iteração {iteration + 1} devido à estagnação.")
     else:
-        print(f"Número máximo de iterações ({max_iterations}) atingido pelo PSO.")
+        print(f"Número máximo de iterações ({max_iterations}) atingido")
 
-        last_global_best_fitness = current_global_best_fitness # Para ser usado na próxima iteração
 
-    final_cost = obj_func(global_best_position[0], global_best_position[1])
-    return global_best_position, final_cost, pos_history, fitness_history, counter
+    return global_best_position, last_global_best_fitness, pos_history, fitness_history, counter
