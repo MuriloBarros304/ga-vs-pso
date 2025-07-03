@@ -17,7 +17,7 @@ def pso(obj_func: ObjectiveFunction, num_particles: int, max_iterations: int, bo
         tolerance (float): Tolerância para considerar que não houve melhoria significativa.
         patience (int): Número de iterações sem melhoria antes de parar.
     Returns:
-        tuple: Melhor posição encontrada, seu valor de fitness, histórico de posições e histórico de fitness.
+        tuple: Melhor posição encontrada, seu valor de fitness, histórico de posições e histórico de fitnesse contador de operações.
     """
 
     # --- INICIALIZAÇÃO ---
@@ -63,6 +63,7 @@ def pso(obj_func: ObjectiveFunction, num_particles: int, max_iterations: int, bo
         
         # --- AVALIAÇÃO DA FUNÇÃO OBJETIVO ---
         fitness = obj_func(particles[:, 0], particles[:, 1]) # Avalia a função objetivo para as novas posições
+        # print(f"z: {fitness}") # Debug: Exibe o valor de fitness calculado
         
         # --- ATUALIZAÇÃO DE MELHORES ---
         # Encontra o melhor da iteração atual
@@ -83,6 +84,7 @@ def pso(obj_func: ObjectiveFunction, num_particles: int, max_iterations: int, bo
         pos_history.append(particles.copy())
         fitness_history.append(fitness.copy())
 
+        print(f"{iteration + 1}, {fitness}")
 
         # --- VERIFICAÇÃO DE CONVERGÊNCIA ---
         if improvement > tolerance: # Se houve melhoria significativa
@@ -101,10 +103,10 @@ def pso(obj_func: ObjectiveFunction, num_particles: int, max_iterations: int, bo
         # print(f"Iteração {iteration + 1}: Melhor posição: ({global_best_position[0]:.4f}, {global_best_position[1]:.4f}), Z ótimo: {current_global_best_fitness:.2f}, Melhoria: {improvement:.6f}")
         # --- FIM DEBUG ---
 
-    if stagnation_reached:
-        print(f"Convergência atingida na iteração {iteration + 1} devido à estagnação.")
-    else:
-        print(f"Número máximo de iterações ({max_iterations}) atingido")
+    # if stagnation_reached:
+        # print(f"Convergência atingida na iteração {iteration + 1} devido à estagnação.")
+    # else:
+        # print(f"Número máximo de iterações ({max_iterations}) atingido")
 
 
     return global_best_position, last_global_best_fitness, pos_history, fitness_history, counter

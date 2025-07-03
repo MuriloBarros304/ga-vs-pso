@@ -19,12 +19,12 @@ def ga(obj_func: ObjectiveFunction, num_individuals: int, max_generations: int,
         tolerance (float): Tolerância para considerar convergência.
         patience (int): Número de gerações sem melhoria antes de parar.
     Returns:
-        tuple: Melhor indivíduo encontrado, seu valor de fitness, histórico da população e histórico de fitness.
+        tuple: Melhor indivíduo encontrado, seu valor de fitness, histórico da população e histórico de fitness e contador de operações.
     """
     
     # --- INICIALIZAÇÃO ---
-    population = np.random.uniform(bounds[0], bounds[1], (num_individuals, 2))
-    fitness = obj_func(population[:, 0], population[:, 1])
+    population = np.random.uniform(bounds[0], bounds[1], (num_individuals, 2)) # Cria a população inicial com indivíduos aleatórios
+    fitness = obj_func(population[:, 0], population[:, 1]) # Avalia a população inicial
     counter = {'multiplications': 0, 'divisions': 0} # Contador de operações
     
     # --- HISTÓRICO ---
@@ -122,6 +122,7 @@ def ga(obj_func: ObjectiveFunction, num_individuals: int, max_generations: int,
             # --- DEBUG ---
             # print(f"P1: ({parent1[0]:.2f}, {parent1[1]:.2f}) ; P2: ({parent2[0]:.2f}, {parent2[1]:.2f})   ->   C1: ({new_population[-2][0]:.2f}, {new_population[-2][1]:.2f}) , ({new_population[-1][0] if len(new_population) % 2 == 0 else 'N/A':.2f}, {new_population[-1][1] if len(new_population) % 2 == 0 else 'N/A':.2f})")
             # --- FIM DEBUG ---
+
             
             i += 2 # Avança para o próximo par de pais
         
@@ -140,6 +141,7 @@ def ga(obj_func: ObjectiveFunction, num_individuals: int, max_generations: int,
         population = cliped_population
 
         fitness = obj_func(population[:, 0], population[:, 1])
+        # print(f"z: {fitness}")
 
         # --- ATUALIZAÇÃO DO MELHOR GLOBAL ---
         current_best_index = np.argmin(fitness)
@@ -149,6 +151,7 @@ def ga(obj_func: ObjectiveFunction, num_individuals: int, max_generations: int,
         
         population_history.append(population.copy()) # Armazena o estado atual da população
         fitness_history.append(fitness.copy())
+        print(f"{generation + 1}, {fitness}")
         
         # --- PARADA POR TOLERÂNCIA ---
         improvement = last_overall_best_fitness - best_overall_fitness
@@ -164,10 +167,10 @@ def ga(obj_func: ObjectiveFunction, num_individuals: int, max_generations: int,
             
         last_overall_best_fitness = best_overall_fitness # Para ser usado na próxima iteração
     
-    if stagnation_reached:
-        print(f"Convergência atingida na geração {generation + 1} devido à estagnação.")
-    else:
-        print(f"Número máximo de gerações ({max_generations}) atingido")
+    # if stagnation_reached:
+        # print(f"Convergência atingida na geração {generation + 1} devido à estagnação.")
+    # else:
+        # print(f"Número máximo de gerações ({max_generations}) atingido")
         
 
     return best_overall_individual, best_overall_fitness, population_history, fitness_history, counter
