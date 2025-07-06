@@ -93,9 +93,13 @@ As diferentes configurações são:
 ```
 
 # Resultados
-Ambos com configuração otimizada
-### Animação do Algoritmo Genético (GA)
+### Algoritmo Genético (GA)
 ![Animação do Algoritmo Genético mostrando a convergência da população](imgs/ga_animation.gif)
 
-### Animação do Enxame de Partículas (PSO)
+![Gráfico de convergência para o GA](imgs/grafico_convergencia_ga.png)
+
+### Enxame de Partículas (PSO)
 ![Animação do PSO mostrando as partículas convergindo para o ótimo](imgs/pso_animation.gif)
+
+![Gráfico de convergência para o PSO](imgs/grafico_convergencia_pso.png)
+

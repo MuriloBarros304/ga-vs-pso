@@ -29,15 +29,15 @@ def run_ga_and_animate(params: dict):
     # --- EXIBIÇÃO DOS RESULTADOS ---
     total_multiplications = params['obj_func'].multiplications + cont['multiplications']
     total_divisions = params['obj_func'].divisions + cont['divisions']
-    """ print(f"Ponto ótimo: ({best_ind[0]:.8f}, {best_ind[1]:.8f})")
+    print(f"Ponto ótimo: ({best_ind[0]:.8f}, {best_ind[1]:.8f})")
     print(f"Z ótimo: {best_cost:.8f}")
     print(f"Avaliações até encontrar o mínimo global: {discovery_nfe} (Geração {discovery_gen})")
     print(f"Total de avaliações da função: {evaluations}")
     print(f"Multiplicações: {total_multiplications}")
-    print(f"Divisões: {total_divisions}") """
+    print(f"Divisões: {total_divisions}")
 
     # --- GERAÇÃO DA ANIMAÇÃO ---
-    """ create_animation(
+    create_animation(
         population_history=population_history,
         fitness_history=fitness_history,
         objective_function=params['obj_func'],
@@ -46,4 +46,4 @@ def run_ga_and_animate(params: dict):
         title="GA",
         particle_color='green',
         particle_label='Indivíduos'
-    ) """
+    )

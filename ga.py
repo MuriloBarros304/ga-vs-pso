@@ -129,12 +129,11 @@ def ga(obj_func: ObjectiveFunction, num_individuals: int, max_generations: int,
         population = np.array(new_population)
 
         # --- MUTAÇÃO ---
-        if elitism_size < len(population):
-            mutation_candidates = population[elitism_size:] # Todos os indivíduos exceto os de elite
-            mask = np.random.rand(*mutation_candidates.shape) < mutation_rate
-            mutation_candidates[mask] += np.random.normal(0, mutation_strength, size=mutation_candidates[mask].shape)
-            num_mutations = np.sum(mask)
-            counter['multiplications'] += num_mutations
+        mutation_candidates = population[elitism_size:] # Todos os indivíduos exceto os de elite
+        mask = np.random.rand(*mutation_candidates.shape) < mutation_rate
+        mutation_candidates[mask] += np.random.normal(0, mutation_strength, size=mutation_candidates[mask].shape)
+        num_mutations = np.sum(mask)
+        counter['multiplications'] += num_mutations
 
         cliped_population = np.clip(population, bounds[0], bounds[1]) # Garante que os indivíduos estejam dentro dos limites
         
@@ -151,7 +150,7 @@ def ga(obj_func: ObjectiveFunction, num_individuals: int, max_generations: int,
         
         population_history.append(population.copy()) # Armazena o estado atual da população
         fitness_history.append(fitness.copy())
-        print(f"{generation + 1}, {fitness}")
+        # print(f"{generation + 1}, {fitness}")
         
         # --- PARADA POR TOLERÂNCIA ---
         improvement = last_overall_best_fitness - best_overall_fitness
@@ -167,10 +166,10 @@ def ga(obj_func: ObjectiveFunction, num_individuals: int, max_generations: int,
             
         last_overall_best_fitness = best_overall_fitness # Para ser usado na próxima iteração
     
-    # if stagnation_reached:
-        # print(f"Convergência atingida na geração {generation + 1} devido à estagnação.")
-    # else:
-        # print(f"Número máximo de gerações ({max_generations}) atingido")
+    if stagnation_reached:
+        print(f"Convergência atingida na geração {generation + 1} devido à estagnação.")
+    else:
+        print(f"Número máximo de gerações ({max_generations}) atingido")
         
 
     return best_overall_individual, best_overall_fitness, population_history, fitness_history, counter

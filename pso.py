@@ -84,7 +84,7 @@ def pso(obj_func: ObjectiveFunction, num_particles: int, max_iterations: int, bo
         pos_history.append(particles.copy())
         fitness_history.append(fitness.copy())
 
-        print(f"{iteration + 1}, {fitness}")
+        # print(f"{iteration + 1}, {fitness}")
 
         # --- VERIFICAÇÃO DE CONVERGÊNCIA ---
         if improvement > tolerance: # Se houve melhoria significativa
@@ -103,10 +103,10 @@ def pso(obj_func: ObjectiveFunction, num_particles: int, max_iterations: int, bo
         # print(f"Iteração {iteration + 1}: Melhor posição: ({global_best_position[0]:.4f}, {global_best_position[1]:.4f}), Z ótimo: {current_global_best_fitness:.2f}, Melhoria: {improvement:.6f}")
         # --- FIM DEBUG ---
 
-    # if stagnation_reached:
-        # print(f"Convergência atingida na iteração {iteration + 1} devido à estagnação.")
-    # else:
-        # print(f"Número máximo de iterações ({max_iterations}) atingido")
+    if stagnation_reached:
+        print(f"Convergência atingida na iteração {iteration + 1} devido à estagnação.")
+    else:
+        print(f"Número máximo de iterações ({max_iterations}) atingido")
 
 
     return global_best_position, last_global_best_fitness, pos_history, fitness_history, counter
