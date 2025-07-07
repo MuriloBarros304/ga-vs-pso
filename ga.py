@@ -48,30 +48,18 @@ def ga(obj_func: ObjectiveFunction, num_individuals: int, max_generations: int,
         new_population = [population[i].copy() for i in elite_indices] # A nova população começa com os indivíduos de elite
 
         # --- SELEÇÃO POR ROLETA ---
-        # Aptidão é a diferença entre o pior fitness e o fitness de cada indivíduo
-        # A aptidões são normalizadas para probabilidades de seleção, indivíduos mais aptos têm maior chance de serem selecionados
-
-        """ non_elite_mask = np.ones(num_individuals, dtype=bool)
-        non_elite_mask[elite_indices] = False
-        non_elite_population = population[non_elite_mask]
-        non_elite_fitness = fitness[non_elite_mask]
-        non_elite_num_ind = len(non_elite_population) """
-        
+        # Aptidão é a função objetivo avaliada e ordenada de forma que os melhores indivíduos tenham maior chance de serem selecionados
         num_parents_to_select = num_individuals - elitism_size # Número de pais a serem selecionados
         
         ranked_indices = np.argsort(fitness) # Índices dos indivíduos ordenados por fitness
-        # ranked_indices = np.argsort(non_elite_fitness) # Sem elite
         rank_aptitude = np.arange(num_individuals, 0, -1) # Lista de aptidões, de num_individuals a 1
-        # rank_aptitude = np.arange(non_elite_num_ind, 0, -1) # Sem elite
 
         total_aptitude = np.sum(rank_aptitude) # Soma das aptidões
     
         selection_probabilities = rank_aptitude / total_aptitude
         counter['divisions'] += num_individuals # Contabiliza as divisões
-        # counter['divisions'] += non_elite_num_ind # Sem elite
 
         final_probabilities = np.zeros(num_individuals) # Inicializa as probabilidades finais
-        # final_probabilities = np.zeros(non_elite_num_ind) #Sem elite
         final_probabilities[ranked_indices] = selection_probabilities # Atribui as probabil
         
         parent_indices = np.random.choice( # Sorteia com base nas probabilidades de seleção

@@ -13,7 +13,7 @@ PSO_CONFIG = {
     'cognitive_coeff': 0.5,
     'social_coeff': 0.4,
     'min_w': 0.01,
-    'max_w': 0.75,
+    'max_w': 0.7,
     'tolerance': 1e-5,
     'patience': 10
 }

@@ -21,10 +21,8 @@ def run_ga_and_animate(params: dict):
     # O histórico tem N+1 estados, então o NFE da geração 'i' é (i * pop_size) + pop_size inicial
     # Como o nosso contador já faz isso, podemos simplesmente calcular de forma proporcional
     evaluations = params['obj_func'].evaluations
-    discovery_nfe = -1
-    if discovery_gen != -1:
-        # Estimativa do NFE no momento da descoberta
-        discovery_nfe = (discovery_gen + 1) * params['num_individuals']
+    # Estimativa do NFE no momento da descoberta
+    discovery_nfe = (discovery_gen + 1) * params['num_individuals']
     
     # --- EXIBIÇÃO DOS RESULTADOS ---
     total_multiplications = params['obj_func'].multiplications + cont['multiplications']

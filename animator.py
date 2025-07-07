@@ -18,33 +18,26 @@ def create_animation(population_history, fitness_history, objective_function, bo
     """
     actual_iterations = len(population_history)
 
-    # Preparação do fundo do gráfico (contour plot)
     x_range = np.arange(bounds[0][0], bounds[1][0] + 1, 10)
     y_range = np.arange(bounds[0][1], bounds[1][1] + 1, 10)
     X, Y = np.meshgrid(x_range, y_range)
     Z_background = objective_function(X, Y)
     
-    # Níveis de contorno estáticos para uma visualização consistente
     fitness_levels = np.linspace(np.min(Z_background), np.max(Z_background), 50)
 
-    # Configuração da figura
     fig, ax = plt.subplots(figsize=(10, 8))
 
-    # Função que desenha cada quadro da animação
     def animate(i):
         ax.clear()
         
         current_population = population_history[i]
         current_fitness = np.min(fitness_history[i])
         
-        # Desenha o fundo
         ax.contourf(X, Y, Z_background, levels=fitness_levels, cmap='autumn', alpha=0.7, zorder=1)
         
-        # Desenha as partículas/indivíduos
         ax.scatter(current_population[:, 0], current_population[:, 1], 
                    marker='o', color=particle_color, alpha=0.7, zorder=10, label=particle_label)
 
-        # Formatação dos eixos e títulos
         ax.set_xlabel("X")
         ax.set_ylabel("Y")
         ax.set_title(f'{title} - Iteração {i}/{actual_iterations-1} | Melhor Z: {current_fitness:.8f}', fontsize=16)
@@ -54,7 +47,6 @@ def create_animation(population_history, fitness_history, objective_function, bo
         ax.grid(True, linestyle='--', alpha=1)
         ax.set_aspect('equal', adjustable='box')
 
-    # Cria e salva a animação
     anim = FuncAnimation(fig, animate, frames=actual_iterations, interval=150, blit=False)
     try:
         anim.save(filename, writer='ffmpeg', fps=1, dpi=120)
