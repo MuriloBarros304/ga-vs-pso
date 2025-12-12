@@ -1,0 +1,25 @@
+=== MELHORES HIPERPARÂMETROS PARA: W1_W4 ===
+
+--- PSO (Melhor Z: -497.99999975) ---
+{
+    'num_particles': 45,
+    'max_iterations': 200,
+    'cognitive_coeff': 0.58200,
+    'social_coeff': 1.58365,
+    'max_w': 0.63837,
+    'min_w': 0.10661,
+    'tolerance': 0.00001,
+    'patience': 25,
+}
+
+--- GA (Melhor Z: -497.99999975) ---
+{
+    'num_individuals': 94,
+    'max_generations': 200,
+    'mutation_rate': 0.06376,
+    'mutation_strength': 26.40488,
+    'crossover_rate': 0.69540,
+    'elitism_size': 6,
+    'tolerance': 0.00001,
+    'patience': 25,
+}

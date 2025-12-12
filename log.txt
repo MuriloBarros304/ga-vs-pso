@@ -1,0 +1,720 @@
+
+>>> INICIANDO PROCESSO DE OTIMIZAÇÃO E GERAÇÃO DE ANIMAÇÕES <<<
+
+============================================================
+CENÁRIO: SCHWEFEL_ROSENBROCK
+============================================================
+
+... Gerando animação PSO para schwefel_rosenbrock ...
+------------ PSO (schwefel_rosenbrock) -------------
+Convergência atingida na iteração 84 devido à estagnação.
+Função: schwefel_rosenbrock
+Ponto ótimo: (0.00000000, 0.00000000)
+Z ótimo: -497.99999975
+Avaliações até encontrar o mínimo global: 1080 (Iteração 23)
+Total de avaliações da função: 3993
+Multiplicações: 117660
+Divisões: 27738
+
+
+... Gerando animação GA para schwefel_rosenbrock ...
+------------ GA (schwefel_rosenbrock) -------------
+Convergência atingida na geração 68 devido à estagnação.
+Função: schwefel_rosenbrock
+Ponto ótimo: (-0.00000000, -0.00000000)
+Z ótimo: -497.99999975
+Avaliações até encontrar o mínimo global: 1692 (Geração 17)
+Total de avaliações da função: 6486
+Multiplicações: 138953
+Divisões: 45308
+
+
+============================================================
+CENÁRIO: RASTRIGIN
+============================================================
+
+... Gerando animação PSO para rastrigin ...
+------------ PSO (rastrigin) -------------
+Convergência atingida na iteração 77 devido à estagnação.
+Função: rastrigin
+Ponto ótimo: (-0.00000400, -0.00000664)
+Z ótimo: 0.00000000
+Avaliações até encontrar o mínimo global: 3381 (Iteração 68)
+Total de avaliações da função: 3976
+Multiplicações: 61586
+Divisões: 11725
+
+
+... Gerando animação GA para rastrigin ...
+------------ GA (rastrigin) -------------
+Convergência atingida na geração 49 devido à estagnação.
+Função: rastrigin
+Ponto ótimo: (0.00000132, 0.00000273)
+Z ótimo: 0.00000000
+Avaliações até encontrar o mínimo global: 2205 (Geração 34)
+Total de avaliações da função: 3150
+Multiplicações: 24119
+Divisões: 9387
+
+
+>>> PROCESSO CONCLUÍDO. <<<
+
+>>> INICIANDO PROCESSO DE OTIMIZAÇÃO E GERAÇÃO DE ANIMAÇÕES <<<
+
+============================================================
+CENÁRIO: SCHWEFEL_ROSENBROCK
+============================================================
+
+... Gerando animação PSO para schwefel_rosenbrock ...
+------------ PSO (schwefel_rosenbrock) -------------
+Convergência atingida na iteração 75 devido à estagnação.
+Função: schwefel_rosenbrock
+Ponto ótimo: (-0.00000000, 0.00000000)
+Z ótimo: -497.99999974
+Avaliações até encontrar o mínimo global: 810 (Iteração 17)
+Total de avaliações da função: 3570
+Multiplicações: 105150
+Divisões: 24795
+
+
+... Gerando animação GA para schwefel_rosenbrock ...
+------------ GA (schwefel_rosenbrock) -------------
+Convergência atingida na geração 73 devido à estagnação.
+Função: schwefel_rosenbrock
+Ponto ótimo: (0.00000000, -0.00000000)
+Z ótimo: -497.99999975
+Avaliações até encontrar o mínimo global: 2068 (Geração 21)
+Total de avaliações da função: 6956
+Multiplicações: 148788
+Divisões: 48598
+
+
+============================================================
+CENÁRIO: RASTRIGIN
+============================================================
+
+... Gerando animação PSO para rastrigin ...
+------------ PSO (rastrigin) -------------
+Convergência atingida na iteração 54 devido à estagnação.
+Função: rastrigin
+Ponto ótimo: (0.00001700, -0.00000151)
+Z ótimo: 0.00000000
+Avaliações até encontrar o mínimo global: 2401 (Iteração 48)
+Total de avaliações da função: 2803
+Multiplicações: 43278
+Divisões: 8252
+
+
+... Gerando animação GA para rastrigin ...
+------------ GA (rastrigin) -------------
+Convergência atingida na geração 49 devido à estagnação.
+Função: rastrigin
+Ponto ótimo: (-0.00000717, -97.16392927)
+Z ótimo: 0.99495906
+Avaliações até encontrar o mínimo global: 1449 (Geração 22)
+Total de avaliações da função: 3150
+Multiplicações: 24010
+Divisões: 9387
+
+
+>>> PROCESSO CONCLUÍDO. <<<
+
+>>> INICIANDO PROCESSO DE OTIMIZAÇÃO E GERAÇÃO DE ANIMAÇÕES <<<
+
+============================================================
+CENÁRIO: SCHWEFEL_ROSENBROCK
+============================================================
+
+... Gerando animação PSO para schwefel_rosenbrock ...
+------------ PSO (schwefel_rosenbrock) -------------
+Convergência atingida na iteração 82 devido à estagnação.
+Função: schwefel_rosenbrock
+Ponto ótimo: (0.00000000, -0.00000000)
+Z ótimo: -497.99999975
+Avaliações até encontrar o mínimo global: 765 (Iteração 16)
+Total de avaliações da função: 3899
+Multiplicações: 114880
+Divisões: 27084
+
+
+... Gerando animação GA para schwefel_rosenbrock ...
+------------ GA (schwefel_rosenbrock) -------------
+Convergência atingida na geração 77 devido à estagnação.
+Função: schwefel_rosenbrock
+Ponto ótimo: (0.00000000, 0.00000000)
+Z ótimo: -497.99999975
+Avaliações até encontrar o mínimo global: 2350 (Geração 24)
+Total de avaliações da função: 7332
+Multiplicações: 156870
+Divisões: 51230
+
+
+============================================================
+CENÁRIO: RASTRIGIN
+============================================================
+
+... Gerando animação PSO para rastrigin ...
+------------ PSO (rastrigin) -------------
+Convergência atingida na iteração 58 devido à estagnação.
+Função: rastrigin
+Ponto ótimo: (0.00000055, -0.00000505)
+Z ótimo: 0.00000000
+Avaliações até encontrar o mínimo global: 2303 (Iteração 46)
+Total de avaliações da função: 3007
+Multiplicações: 46462
+Divisões: 8856
+
+
+... Gerando animação GA para rastrigin ...
+------------ GA (rastrigin) -------------
+Convergência atingida na geração 42 devido à estagnação.
+Função: rastrigin
+Ponto ótimo: (0.00000100, 0.00000078)
+Z ótimo: 0.00000000
+Avaliações até encontrar o mínimo global: 1953 (Geração 30)
+Total de avaliações da função: 2709
+Multiplicações: 20574
+Divisões: 8064
+
+
+>>> PROCESSO CONCLUÍDO. <<<
+
+>>> INICIANDO PROCESSO DE OTIMIZAÇÃO E GERAÇÃO DE ANIMAÇÕES <<<
+
+============================================================
+CENÁRIO: SCHWEFEL_ROSENBROCK
+============================================================
+
+... Gerando animação PSO para schwefel_rosenbrock ...
+------------ PSO (schwefel_rosenbrock) -------------
+Convergência atingida na iteração 81 devido à estagnação.
+Função: schwefel_rosenbrock
+Ponto ótimo: (-0.00000000, -0.00000000)
+Z ótimo: -497.99999974
+Avaliações até encontrar o mínimo global: 990 (Iteração 21)
+Total de avaliações da função: 3852
+Multiplicações: 113490
+Divisões: 26757
+
+
+... Gerando animação GA para schwefel_rosenbrock ...
+------------ GA (schwefel_rosenbrock) -------------
+Convergência atingida na geração 68 devido à estagnação.
+Função: schwefel_rosenbrock
+Ponto ótimo: (0.00000000, -0.00000000)
+Z ótimo: -497.99999974
+Avaliações até encontrar o mínimo global: 2068 (Geração 21)
+Total de avaliações da função: 6486
+Multiplicações: 138838
+Divisões: 45308
+
+
+============================================================
+CENÁRIO: RASTRIGIN
+============================================================
+
+... Gerando animação PSO para rastrigin ...
+------------ PSO (rastrigin) -------------
+Convergência atingida na iteração 54 devido à estagnação.
+Função: rastrigin
+Ponto ótimo: (0.00000110, -0.00000076)
+Z ótimo: 0.00000000
+Avaliações até encontrar o mínimo global: 2254 (Iteração 45)
+Total de avaliações da função: 2803
+Multiplicações: 43278
+Divisões: 8252
+
+
+... Gerando animação GA para rastrigin ...
+------------ GA (rastrigin) -------------
+Convergência atingida na geração 49 devido à estagnação.
+Função: rastrigin
+Ponto ótimo: (0.00000041, 0.00000004)
+Z ótimo: 0.00000000
+Avaliações até encontrar o mínimo global: 2331 (Geração 36)
+Total de avaliações da função: 3150
+Multiplicações: 24097
+Divisões: 9387
+
+
+>>> PROCESSO CONCLUÍDO. <<<
+
+>>> INICIANDO PROCESSO DE OTIMIZAÇÃO E GERAÇÃO DE ANIMAÇÕES <<<
+
+============================================================
+CENÁRIO: SCHWEFEL_ROSENBROCK
+============================================================
+
+... Gerando animação PSO para schwefel_rosenbrock ...
+------------ PSO (schwefel_rosenbrock) -------------
+Convergência atingida na iteração 78 devido à estagnação.
+Função: schwefel_rosenbrock
+Ponto ótimo: (0.00000000, -0.00000000)
+Z ótimo: -497.99999974
+Avaliações até encontrar o mínimo global: 1035 (Iteração 22)
+Total de avaliações da função: 3711
+Multiplicações: 109320
+Divisões: 25776
+
+
+... Gerando animação GA para schwefel_rosenbrock ...
+------------ GA (schwefel_rosenbrock) -------------
+Convergência atingida na geração 65 devido à estagnação.
+Função: schwefel_rosenbrock
+Ponto ótimo: (0.00000000, -0.00000000)
+Z ótimo: -497.99999975
+Avaliações até encontrar o mínimo global: 1692 (Geração 17)
+Total de avaliações da função: 6204
+Multiplicações: 132831
+Divisões: 43334
+
+
+============================================================
+CENÁRIO: RASTRIGIN
+============================================================
+
+... Gerando animação PSO para rastrigin ...
+------------ PSO (rastrigin) -------------
+Convergência atingida na iteração 64 devido à estagnação.
+Função: rastrigin
+Ponto ótimo: (-0.00001186, 0.00001757)
+Z ótimo: 0.00000000
+Avaliações até encontrar o mínimo global: 2842 (Iteração 57)
+Total de avaliações da função: 3313
+Multiplicações: 51238
+Divisões: 9762
+
+
+... Gerando animação GA para rastrigin ...
+------------ GA (rastrigin) -------------
+Convergência atingida na geração 51 devido à estagnação.
+Função: rastrigin
+Ponto ótimo: (0.00000024, -0.00000186)
+Z ótimo: 0.00000000
+Avaliações até encontrar o mínimo global: 2520 (Geração 39)
+Total de avaliações da função: 3276
+Multiplicações: 24956
+Divisões: 9765
+
+
+>>> PROCESSO CONCLUÍDO. <<<
+
+>>> INICIANDO PROCESSO DE OTIMIZAÇÃO E GERAÇÃO DE ANIMAÇÕES <<<
+
+============================================================
+CENÁRIO: SCHWEFEL_ROSENBROCK
+============================================================
+
+... Gerando animação PSO para schwefel_rosenbrock ...
+------------ PSO (schwefel_rosenbrock) -------------
+Convergência atingida na iteração 82 devido à estagnação.
+Função: schwefel_rosenbrock
+Ponto ótimo: (-0.00000000, 0.00000000)
+Z ótimo: -497.99999975
+Avaliações até encontrar o mínimo global: 1080 (Iteração 23)
+Total de avaliações da função: 3899
+Multiplicações: 114880
+Divisões: 27084
+
+
+... Gerando animação GA para schwefel_rosenbrock ...
+------------ GA (schwefel_rosenbrock) -------------
+Convergência atingida na geração 69 devido à estagnação.
+Função: schwefel_rosenbrock
+Ponto ótimo: (0.00000000, -0.00000000)
+Z ótimo: -497.99999975
+Avaliações até encontrar o mínimo global: 2444 (Geração 25)
+Total de avaliações da função: 6580
+Multiplicações: 140852
+Divisões: 45966
+
+
+============================================================
+CENÁRIO: RASTRIGIN
+============================================================
+
+... Gerando animação PSO para rastrigin ...
+------------ PSO (rastrigin) -------------
+Convergência atingida na iteração 59 devido à estagnação.
+Função: rastrigin
+Ponto ótimo: (-0.00000107, -0.00000218)
+Z ótimo: 0.00000000
+Avaliações até encontrar o mínimo global: 2254 (Iteração 45)
+Total de avaliações da função: 3058
+Multiplicações: 47258
+Divisões: 9007
+
+
+... Gerando animação GA para rastrigin ...
+------------ GA (rastrigin) -------------
+Convergência atingida na geração 47 devido à estagnação.
+Função: rastrigin
+Ponto ótimo: (-0.00000032, 0.00000013)
+Z ótimo: 0.00000000
+Avaliações até encontrar o mínimo global: 2079 (Geração 32)
+Total de avaliações da função: 3024
+Multiplicações: 23072
+Divisões: 9009
+
+
+>>> PROCESSO CONCLUÍDO. <<<
+
+>>> INICIANDO PROCESSO DE OTIMIZAÇÃO E GERAÇÃO DE ANIMAÇÕES <<<
+
+============================================================
+CENÁRIO: SCHWEFEL_ROSENBROCK
+============================================================
+
+... Gerando animação PSO para schwefel_rosenbrock ...
+------------ PSO (schwefel_rosenbrock) -------------
+Convergência atingida na iteração 78 devido à estagnação.
+Função: schwefel_rosenbrock
+Ponto ótimo: (0.00000000, -0.00000000)
+Z ótimo: -497.99999973
+Avaliações até encontrar o mínimo global: 1170 (Iteração 25)
+Total de avaliações da função: 3711
+Multiplicações: 109320
+Divisões: 25776
+
+
+... Gerando animação GA para schwefel_rosenbrock ...
+------------ GA (schwefel_rosenbrock) -------------
+Convergência atingida na geração 67 devido à estagnação.
+Função: schwefel_rosenbrock
+Ponto ótimo: (0.00000000, 0.00000000)
+Z ótimo: -497.99999975
+Avaliações até encontrar o mínimo global: 1974 (Geração 20)
+Total de avaliações da função: 6392
+Multiplicações: 136892
+Divisões: 44650
+
+
+============================================================
+CENÁRIO: RASTRIGIN
+============================================================
+
+... Gerando animação PSO para rastrigin ...
+------------ PSO (rastrigin) -------------
+Convergência atingida na iteração 52 devido à estagnação.
+Função: rastrigin
+Ponto ótimo: (-0.00000130, -0.00003314)
+Z ótimo: 0.00000000
+Avaliações até encontrar o mínimo global: 2401 (Iteração 48)
+Total de avaliações da função: 2701
+Multiplicações: 41686
+Divisões: 7950
+
+
+... Gerando animação GA para rastrigin ...
+------------ GA (rastrigin) -------------
+Convergência atingida na geração 43 devido à estagnação.
+Função: rastrigin
+Ponto ótimo: (-0.00000017, -0.00000016)
+Z ótimo: 0.00000000
+Avaliações até encontrar o mínimo global: 1890 (Geração 29)
+Total de avaliações da função: 2772
+Multiplicações: 21123
+Divisões: 8253
+
+
+>>> PROCESSO CONCLUÍDO. <<<
+
+>>> INICIANDO PROCESSO DE OTIMIZAÇÃO E GERAÇÃO DE ANIMAÇÕES <<<
+
+============================================================
+CENÁRIO: SCHWEFEL_ROSENBROCK
+============================================================
+
+... Gerando animação PSO para schwefel_rosenbrock ...
+------------ PSO (schwefel_rosenbrock) -------------
+Convergência atingida na iteração 76 devido à estagnação.
+Função: schwefel_rosenbrock
+Ponto ótimo: (-0.00000000, 0.00000000)
+Z ótimo: -497.99999974
+Avaliações até encontrar o mínimo global: 990 (Iteração 21)
+Total de avaliações da função: 3617
+Multiplicações: 106540
+Divisões: 25122
+
+
+... Gerando animação GA para schwefel_rosenbrock ...
+------------ GA (schwefel_rosenbrock) -------------
+Convergência atingida na geração 70 devido à estagnação.
+Função: schwefel_rosenbrock
+Ponto ótimo: (-0.00000000, -0.00000000)
+Z ótimo: -497.99999975
+Avaliações até encontrar o mínimo global: 1974 (Geração 20)
+Total de avaliações da função: 6674
+Multiplicações: 142798
+Divisões: 46624
+
+
+============================================================
+CENÁRIO: RASTRIGIN
+============================================================
+
+... Gerando animação PSO para rastrigin ...
+------------ PSO (rastrigin) -------------
+Convergência atingida na iteração 48 devido à estagnação.
+Função: rastrigin
+Ponto ótimo: (-0.00002357, 0.00001488)
+Z ótimo: 0.00000000
+Avaliações até encontrar o mínimo global: 2352 (Iteração 47)
+Total de avaliações da função: 2497
+Multiplicações: 38502
+Divisões: 7346
+
+
+... Gerando animação GA para rastrigin ...
+------------ GA (rastrigin) -------------
+Convergência atingida na geração 49 devido à estagnação.
+Função: rastrigin
+Ponto ótimo: (0.00000017, -0.00000049)
+Z ótimo: 0.00000000
+Avaliações até encontrar o mínimo global: 2394 (Geração 37)
+Total de avaliações da função: 3150
+Multiplicações: 24048
+Divisões: 9387
+
+
+>>> PROCESSO CONCLUÍDO. <<<
+
+>>> INICIANDO PROCESSO DE OTIMIZAÇÃO E GERAÇÃO DE ANIMAÇÕES <<<
+
+============================================================
+CENÁRIO: SCHWEFEL_ROSENBROCK
+============================================================
+
+... Gerando animação PSO para schwefel_rosenbrock ...
+------------ PSO (schwefel_rosenbrock) -------------
+Convergência atingida na iteração 82 devido à estagnação.
+Função: schwefel_rosenbrock
+Ponto ótimo: (-0.00000000, 0.00000000)
+Z ótimo: -497.99999975
+Avaliações até encontrar o mínimo global: 855 (Iteração 18)
+Total de avaliações da função: 3899
+Multiplicações: 114880
+Divisões: 27084
+
+
+... Gerando animação GA para schwefel_rosenbrock ...
+------------ GA (schwefel_rosenbrock) -------------
+Convergência atingida na geração 68 devido à estagnação.
+Função: schwefel_rosenbrock
+Ponto ótimo: (0.00000000, -0.00000000)
+Z ótimo: -497.99999975
+Avaliações até encontrar o mínimo global: 1504 (Geração 15)
+Total de avaliações da função: 6486
+Multiplicações: 138928
+Divisões: 45308
+
+
+============================================================
+CENÁRIO: RASTRIGIN
+============================================================
+
+... Gerando animação PSO para rastrigin ...
+------------ PSO (rastrigin) -------------
+Convergência atingida na iteração 55 devido à estagnação.
+Função: rastrigin
+Ponto ótimo: (0.00000987, -0.00002453)
+Z ótimo: 0.00000000
+Avaliações até encontrar o mínimo global: 2352 (Iteração 47)
+Total de avaliações da função: 2854
+Multiplicações: 44074
+Divisões: 8403
+
+
+... Gerando animação GA para rastrigin ...
+------------ GA (rastrigin) -------------
+Convergência atingida na geração 47 devido à estagnação.
+Função: rastrigin
+Ponto ótimo: (0.00000061, -0.00000035)
+Z ótimo: 0.00000000
+Avaliações até encontrar o mínimo global: 2142 (Geração 33)
+Total de avaliações da função: 3024
+Multiplicações: 23088
+Divisões: 9009
+
+
+>>> PROCESSO CONCLUÍDO. <<<
+
+>>> INICIANDO PROCESSO DE OTIMIZAÇÃO E GERAÇÃO DE ANIMAÇÕES <<<
+
+============================================================
+CENÁRIO: SCHWEFEL_ROSENBROCK
+============================================================
+
+... Gerando animação PSO para schwefel_rosenbrock ...
+------------ PSO (schwefel_rosenbrock) -------------
+Convergência atingida na iteração 80 devido à estagnação.
+Função: schwefel_rosenbrock
+Ponto ótimo: (-0.00000000, -0.00000000)
+Z ótimo: -497.99999974
+Avaliações até encontrar o mínimo global: 720 (Iteração 15)
+Total de avaliações da função: 3805
+Multiplicações: 112100
+Divisões: 26430
+
+
+... Gerando animação GA para schwefel_rosenbrock ...
+------------ GA (schwefel_rosenbrock) -------------
+Convergência atingida na geração 71 devido à estagnação.
+Função: schwefel_rosenbrock
+Ponto ótimo: (0.00000000, 0.00000000)
+Z ótimo: -497.99999975
+Avaliações até encontrar o mínimo global: 1974 (Geração 20)
+Total de avaliações da função: 6768
+Multiplicações: 144782
+Divisões: 47282
+
+
+============================================================
+CENÁRIO: RASTRIGIN
+============================================================
+
+... Gerando animação PSO para rastrigin ...
+------------ PSO (rastrigin) -------------
+Convergência atingida na iteração 68 devido à estagnação.
+Função: rastrigin
+Ponto ótimo: (0.00000086, -0.00000486)
+Z ótimo: 0.00000000
+Avaliações até encontrar o mínimo global: 2695 (Iteração 54)
+Total de avaliações da função: 3517
+Multiplicações: 54422
+Divisões: 10366
+
+
+... Gerando animação GA para rastrigin ...
+------------ GA (rastrigin) -------------
+Convergência atingida na geração 46 devido à estagnação.
+Função: rastrigin
+Ponto ótimo: (0.00000025, 0.00000055)
+Z ótimo: 0.00000000
+Avaliações até encontrar o mínimo global: 2079 (Geração 32)
+Total de avaliações da função: 2961
+Multiplicações: 22614
+Divisões: 8820
+
+
+>>> PROCESSO CONCLUÍDO. <<<
+
+>>> INICIANDO PROCESSO DE OTIMIZAÇÃO E GERAÇÃO DE ANIMAÇÕES <<<
+
+============================================================
+CENÁRIO: SCHWEFEL_ROSENBROCK
+============================================================
+
+... Gerando animação PSO para schwefel_rosenbrock ...
+------------ PSO (schwefel_rosenbrock) -------------
+Convergência atingida na iteração 82 devido à estagnação.
+Função: schwefel_rosenbrock
+Ponto ótimo: (-0.00000000, -0.00000000)
+Z ótimo: -497.99999975
+Avaliações até encontrar o mínimo global: 945 (Iteração 20)
+Total de avaliações da função: 3899
+Multiplicações: 114880
+Divisões: 27084
+
+
+... Gerando animação GA para schwefel_rosenbrock ...
+------------ GA (schwefel_rosenbrock) -------------
+Convergência atingida na geração 70 devido à estagnação.
+Função: schwefel_rosenbrock
+Ponto ótimo: (-0.00000000, -0.00000000)
+Z ótimo: -497.99999975
+Avaliações até encontrar o mínimo global: 1504 (Geração 15)
+Total de avaliações da função: 6674
+Multiplicações: 142788
+Divisões: 46624
+
+
+============================================================
+CENÁRIO: RASTRIGIN
+============================================================
+
+... Gerando animação PSO para rastrigin ...
+------------ PSO (rastrigin) -------------
+Convergência atingida na iteração 51 devido à estagnação.
+Função: rastrigin
+Ponto ótimo: (0.00001602, 0.00002705)
+Z ótimo: 0.00000000
+Avaliações até encontrar o mínimo global: 2303 (Iteração 46)
+Total de avaliações da função: 2650
+Multiplicações: 40890
+Divisões: 7799
+
+
+... Gerando animação GA para rastrigin ...
+------------ GA (rastrigin) -------------
+Convergência atingida na geração 49 devido à estagnação.
+Função: rastrigin
+Ponto ótimo: (-0.00000115, -0.00000118)
+Z ótimo: 0.00000000
+Avaliações até encontrar o mínimo global: 2268 (Geração 35)
+Total de avaliações da função: 3150
+Multiplicações: 24085
+Divisões: 9387
+
+
+>>> PROCESSO CONCLUÍDO. <<<
+
+>>> INICIANDO PROCESSO DE OTIMIZAÇÃO E GERAÇÃO DE ANIMAÇÕES <<<
+
+============================================================
+CENÁRIO: SCHWEFEL_ROSENBROCK
+============================================================
+
+... Gerando animação PSO para schwefel_rosenbrock ...
+------------ PSO (schwefel_rosenbrock) -------------
+Convergência atingida na iteração 78 devido à estagnação.
+Função: schwefel_rosenbrock
+Ponto ótimo: (0.00000000, -0.00000000)
+Z ótimo: -497.99999974
+Avaliações até encontrar o mínimo global: 1035 (Iteração 22)
+Total de avaliações da função: 3711
+Multiplicações: 109320
+Divisões: 25776
+
+
+... Gerando animação GA para schwefel_rosenbrock ...
+------------ GA (schwefel_rosenbrock) -------------
+Convergência atingida na geração 72 devido à estagnação.
+Função: schwefel_rosenbrock
+Ponto ótimo: (-0.00000000, 0.00000000)
+Z ótimo: -497.99999975
+Avaliações até encontrar o mínimo global: 1974 (Geração 20)
+Total de avaliações da função: 6862
+Multiplicações: 146932
+Divisões: 47940
+
+
+============================================================
+CENÁRIO: RASTRIGIN
+============================================================
+
+... Gerando animação PSO para rastrigin ...
+------------ PSO (rastrigin) -------------
+Convergência atingida na iteração 61 devido à estagnação.
+Função: rastrigin
+Ponto ótimo: (-0.00000751, 0.00001988)
+Z ótimo: 0.00000000
+Avaliações até encontrar o mínimo global: 2646 (Iteração 53)
+Total de avaliações da função: 3160
+Multiplicações: 48850
+Divisões: 9309
+
+
+... Gerando animação GA para rastrigin ...
+------------ GA (rastrigin) -------------
+Convergência atingida na geração 47 devido à estagnação.
+Função: rastrigin
+Ponto ótimo: (-0.00000025, -0.00000004)
+Z ótimo: 0.00000000
+Avaliações até encontrar o mínimo global: 2205 (Geração 34)
+Total de avaliações da função: 3024
+Multiplicações: 23040
+Divisões: 9009
+
+
+>>> PROCESSO CONCLUÍDO. <<<

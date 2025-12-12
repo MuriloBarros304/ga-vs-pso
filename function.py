@@ -2,57 +2,81 @@ import numpy as np
 
 class ObjectiveFunction:
     """
-    Classe que representa a função objetivo w1 + w4, baseada no código Scilab.
+    Classe que representa uma função objetivo.
+    Limites de entrada esperados: [-500, 500] para ambas.
+    
+    Suporta:
+    - 'schwefel_rosenbrock': Soma completa (Original Scilab)
+    - 'rastrigin': Função clássica, adaptada para receber entrada [-500, 500]
     """
-    def __init__(self):
-        """Inicializa o contador de avaliações."""
+    def __init__(self, target_func='schwefel_rosenbrock'):
         self.evaluations = 0
         self.multiplications = 0
         self.divisions = 0
+        self.target_func = target_func
 
     def __call__(self, X, Y):
         """
-        Executa o cálculo da função objetivo w1 + w4 e incrementa o contador.
-        
-        Função objetivo que calcula w1 + w4, baseada no código Scilab.
-    
-        Onde:
-        - r=100*(y-x.^2).^2+(1-x).^2;
-        - F10=-a*exp(-b*sqrt((x1.^2+x2.^2)/2))-exp((cos(c*x1)+cos(c*x2))/2)+exp(1);
-        - zsh(i,j)=0.5-((sin(sqrt(xs(i)^2+ys(j)^2)))^2-0.5)./(1+0.1*(xs(i)^2+ys(j)^2))^2;
-        - Fobj=F10.*zsh//+a*cos(x1/30);
-        - a=500; b=0.1; c=0.5*pi;
-
+        Calcula o valor da função.
         Args:
-            X: Array representando as coordenadas X.
-            Y: Array representando as coordenadas Y.
-        Returns:
-            final_result: O resultado da função objetivo w1 + w4.
+            X, Y: Arrays numpy com coordenadas. Esperado intervalo [-500, 500].
         """
-
-        # Incrementa o contador pelo número de indivíduos/partículas sendo avaliados
         num_elements = np.size(X)
         self.evaluations += num_elements
 
         # ==============================================================================
-        # ============== 1: Calcular os componentes base (z, r, Fobj) ==================
+        # ========================== FUNÇÃO RASTRIGIN ==================================
         # ==============================================================================
+        if self.target_func == 'rastrigin':
+            # A Rastrigin padrão opera em [-5.12, 5.12].
+            # Como o GA/PSO vai enviar valores em [-500, 500], precisamos comprimir
+            # a entrada para manter a geometria correta da função.
+            
+            # Fator de escala: 5.12 / 500 = 0.01024
+            scale_factor = 5.12 / 500.0
+            
+            X_scaled = X * scale_factor
+            Y_scaled = Y * scale_factor
+            
+            self.divisions += 2 * num_elements # Contabiliza a divisão do fator de escala
+            
+            A = 10
+            # Parte X
+            comp_x = X_scaled**2 - A * np.cos(2 * np.pi * X_scaled)
+            self.multiplications += 3 * num_elements # x^2, 2*pi*x, A*cos
+            
+            # Parte Y
+            comp_y = Y_scaled**2 - A * np.cos(2 * np.pi * Y_scaled)
+            self.multiplications += 3 * num_elements 
+            
+            result = 2 * A + comp_x + comp_y
+            
+            return result
 
-        # Componente Z (Função de Schwefel), usa as coordenadas originais
+        # ==============================================================================
+        # ========================= (Schwefel-Rosenbrock) ==============================
+        # ==============================================================================
+        # Esta função foi desenhada para operar nativamente em [-500, 500]
+        # Devido ao componente Schwefel (Z_func).
+        
+        # Componente Z (Schwefel)
         Z_func = -X * np.sin(np.sqrt(np.abs(X))) - Y * np.sin(np.sqrt(np.abs(Y)))
         self.multiplications += 2 * num_elements
-        self.divisions += np.size(X)
+        self.divisions += np.size(X) # Sqrt
 
-        # Reescalonar X e Y para os cálculos de Rosenbrock e Ackley/Schaffer
+        # Reescalonamento interno das variáveis para Rosenbrock
         X_scaled = X / 250.0
         Y_scaled = Y / 250.0
         self.divisions += 2 * num_elements
         
-        # Componente R (Função de Rosenbrock), usa as coordenadas reescalonadas
+        # Componente R (Rosenbrock)
         R_func = 100 * (Y_scaled - X_scaled**2)**2 + (1 - X_scaled)**2
         self.multiplications += 4 * num_elements
 
-        # Cálculo dos componentes para Fobj
+        # w1 = Rosenbrock + Schwefel
+        w1_val = R_func + Z_func
+        
+        # Cálculos para W4 (Ackley/Schaffer mix)
         x1 = 25 * X_scaled
         x2 = 25 * Y_scaled
         self.multiplications += 2 * num_elements
@@ -61,13 +85,13 @@ class ObjectiveFunction:
         b = 0.1
         c = 0.5 * np.pi
         
-        # Componente F10 (Função de Ackley)
+        # Componente F10 (Ackley)
         F10 = -a * np.exp(-b * np.sqrt((x1**2 + x2**2) / 2)) - \
             np.exp((np.cos(c * x1) + np.cos(c * x2)) / 2) + np.exp(1)
         self.multiplications += 5 * num_elements
         self.divisions += 2 * num_elements
 
-        # Componente zsh (Função tipo Schaffer)
+        # Componente zsh (Schaffer)
         epsilon = 1e-9
         zsh_numerator = (np.sin(np.sqrt(x1**2 + x2**2)))**2 - 0.5
         zsh_denominator = (1 + 0.1 * (x1**2 + x2**2))**2
@@ -75,28 +99,18 @@ class ObjectiveFunction:
         self.multiplications += 4 * num_elements
         self.divisions += 1 * num_elements
         
-        # Componente Fobj final
+        # Fobj
         Fobj = F10 * zsh
         self.multiplications += num_elements
 
-        # ==============================================================================
-        # ===================== 2: Montar w1, w4 e somá-las ============================
-        # ==============================================================================
-
-        # Cálculo de w1
-        w1_val = R_func + Z_func
-
-        # Cálculo de w4
+        # w4
         w4_val = np.sqrt(R_func**2 + Z_func**2) + Fobj
         self.multiplications += 2 * num_elements
         
-        # A função objetivo final é a soma das duas
-        final_result = w1_val + w4_val
-        
-        return final_result
+        return w1_val + w4_val # Retorna a soma completa
 
     def reset(self):
-        """ Reseta o contador de avaliações para uma nova execução de algoritmo. """
+        """ Reseta os contadores. """
         self.evaluations = 0
         self.multiplications = 0
         self.divisions = 0

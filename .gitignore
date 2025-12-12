@@ -1,3 +1,4 @@
 otm/
 __pycache__/
-*.txt
+*.toml
+.streamlit/

@@ -1,0 +1,116 @@
+INÍCIO DO CONTEXTO DO PROJETO
+
+Este é um projeto acadêmico de Computação Evolutiva desenvolvido para comparar o desempenho de dois algoritmos metaheurísticos clássicos: Algoritmos Genéticos (GA) e Otimização por Enxame de Partículas (PSO). O sistema foi implementado em Python e possui uma interface em Streamlit para visualização e interação.
+
+Sobre o Projeto
+
+O objetivo principal é encontrar o mínimo global de funções matemáticas complexas (benchmarks) em um espaço de busca contínuo, definido pelos limites [-500, 500]. Além de encontrar a solução numérica, o projeto visa visualizar o comportamento dos agentes (indivíduos no GA e partículas no PSO) através de animações geradas via Matplotlib.
+
+Funções Objetivo Otimizadas:
+
+1. Função Rastrigin:
+   - Características: Altamente multimodal (muitos mínimos locais), mas com um mínimo global óbvio em f(0,0) = 0.
+   - Desafio: Evitar a estagnação prematura nas "bacias" locais que cercam a origem.
+   - Tratamento: Embora a função seja classicamente definida em [-5.12, 5.12], ela foi reescalonada internamente para aceitar entradas no intervalo do projeto [-500, 500], mantendo sua topologia característica.
+
+2. Função Schwefel-Rosenbrock (Hybrid Rosenbrock-Schwefel-Ackley-Schaffer):
+   - Características: É uma função híbrida "quimera". Possui o vale parabólico curvo de Rosenbrock, a rugosidade e engano de Schwefel, e componentes de Ackley e Schaffer. Possui um mínimo global em f(0,0) = -498
+   - Desafio: É uma função extremamente difícil. O componente de Schwefel engana o algoritmo para longe do centro, enquanto Rosenbrock exige precisão para descer o vale.
+
+## Metodologia: Algoritmo Genético (GA)
+
+O GA foi implementado utilizando representação real (vetores de números flutuantes) para atuar diretamente no domínio contínuo das funções [-500, 500], sem necessidade de codificação binária.
+
+### 1. Seleção e Estratégia Populacional
+- **Elitismo:** Sim. O algoritmo preserva inalterados os $N$ melhores indivíduos (`elitism_size`) de cada geração para garantir que a melhor solução encontrada nunca seja perdida.
+- **Seleção de Pais (Mating Pool):** Utiliza **Seleção por Roleta Baseada em Rank** (Linear Ranking Selection). Diferente da roleta clássica (proporcional ao fitness), aqui os indivíduos são ordenados por mérito e a probabilidade de seleção é linearmente proporcional à sua classificação. Isso evita a dominância prematura de super-indivíduos e mantém a pressão seletiva constante mesmo quando a variância do fitness diminui.
+
+### 2. Operadores Genéticos (Reprodução)
+- **Crossover (Recombinação):** Aplica o método **Blend Crossover (BLX-$\alpha$)** com $\alpha=0.5$. Em vez de apenas trocar genes, este operador gera filhos escolhendo valores aleatórios dentro de um intervalo expandido entre os pais. Isso permite a exploração de novas regiões do espaço de busca adjacentes aos genitores.
+- **Mutação:** Utiliza **Mutação Gaussiana**. Uma máscara aleatória seleciona genes com base na `mutation_rate`. Aos genes escolhidos, soma-se um ruído aleatório proveniente de uma distribuição Normal (média 0 e desvio padrão definido por `mutation_strength`), permitindo tanto o ajuste fino quanto o escape de ótimos locais.
+
+## Metodologia: Otimização por Enxame de Partículas (PSO)
+
+O PSO implementado utiliza uma abordagem de topologia global (gbest), onde todas as partículas têm acesso imediato à melhor posição encontrada por qualquer membro do enxame. O movimento é regido por vetores de velocidade que equilibram a inércia, a memória individual e a influência coletiva.
+
+### 1. Dinâmica e Controle de Inércia
+- **Inércia Adaptativa ($w$):** O algoritmo utiliza uma estratégia de **Inércia Linear Decrescente**. O peso de inércia $w$ começa alto (`max_w`) para favorecer a exploração global (Exploration) e diminui linearmente a cada iteração até um valor mínimo (`min_w`) para favorecer o refinamento local (Exploitation) na fase final da busca.
+- **Atualização de Posição:** A nova posição é a soma vetorial da posição atual com a nova velocidade calculada.
+
+### 2. Equação de Velocidade
+A velocidade de cada partícula é atualizada somando três componentes vetoriais distintos:
+1.  **Componente Inercial:** Mantém a partícula na sua trajetória atual ($w \cdot v$).
+2.  **Componente Cognitivo ($c_1$):** Atrai a partícula de volta para sua própria melhor posição histórica ($pbest$). Representa a "memória nostálgica" ou aprendizado individual.
+3.  **Componente Social ($c_2$):** Atrai a partícula em direção à melhor posição encontrada por todo o enxame ($gbest$). Representa o aprendizado social ou "efeito de manada".
+- A estocasticidade é garantida multiplicando os componentes cognitivo e social por vetores aleatórios uniformes ($r_1, r_2$).
+
+### 3. Topologia e Restrições
+- **Topologia Global (Star):** O enxame é totalmente conectado. A melhor solução encontrada por qualquer partícula é imediatamente compartilhada com todas as outras como o alvo $gbest$. Isso acelera a convergência, ideal para funções unimodais ou com mínimos globais fortes como a Rastrigin.
+- **Tratamento de Fronteiras:** Utiliza o método de **Saturação (Clamping)**. Se a velocidade impulsionar uma partícula para fora dos limites definidos ($bounds$), sua posição é "cortada" (`np.clip`) para permanecer exatamente na borda do espaço de busca, garantindo a viabilidade de todas as soluções avaliadas.
+
+Metodologia de Ajuste (Tuning)
+
+Não foram utilizados parâmetros arbitrários. Foi aplicada uma técnica de Random Search (Busca Aleatória) com 20 iterações para cada par de algoritmo/função. O "melhor dos melhores" (Best of Best) foi selecionado para a execução final e geração das animações.
+
+Os critérios de seleção dos melhores hiperparâmetros foram:
+1. Menor valor de Fitness (Z) encontrado (Prioridade máxima).
+2. Convergência estável.
+
+Hiperparâmetros Selecionados (Resultados do Tuning):
+
+Para a Função Schwefel-Rosenbrock:
+- PSO: 45 Partículas, Coeficiente Cognitivo (c1)=0.6, Coeficiente Social (c2)=1.6. Inércia decrescente de 0.6 a 0.1. Note o c2 alto, indicando que seguir o líder global foi crucial para sair dos vales de Rosenbrock.
+- GA: 94 Indivíduos, Taxa de Mutação=0.06, Força da Mutação=26.0 (Alta, devido ao espaço amplo), Elitismo=6.
+
+Para a Função Rastrigin:
+- PSO: 49 Partículas, Coeficiente Cognitivo (c1)=2.2, Coeficiente Social (c2)=0.7. Note o c1 alto: na Rastrigin, a "memória pessoal" ajuda a partícula a não ser puxada prematuramente para um mínimo local ruim pelo grupo.
+- GA: 63 Indivíduos, Taxa de Mutação=0.04, Força da Mutação=34.0, Taxa de Crossover=0.9, Elitismo=7.
+
+Análise Comparativa de Desempenho
+
+1. Velocidade de Convergência:
+   - O PSO tende a convergir mais rapidamente para a vizinhança do ótimo devido à comunicação direta da melhor posição global. Na Rastrigin, isso é visível visualmente com as partículas "espiralando" para o centro.
+   - O GA possui uma convergência mais lenta e gradual, explorando o espaço através do Crossover.
+
+2. Robustez (Exploração vs. Explotação):
+   - Na função Schwefel-Rosenbrock (Híbrida), o GA demonstrou boa capacidade de escapar de ótimos locais devido ao operador de mutação com força elevada (sigma ~26-34).
+   - O PSO corre maior risco de estagnação se a inércia cair muito rápido, mas com os parâmetros ajustados (c2 > c1 na Schwefel-Rosenbrock), conseguiu focar na descida do vale.
+
+Métricas Técnicas:
+- NFE (Number of Function Evaluations): É a métrica justa de custo computacional.
+  - Para o GA: NFE = Tamanho da População × Gerações.
+  - Para o PSO: NFE = Número de Partículas × Iterações.
+- Z Ótimo: O valor da função no ponto encontrado. Quanto mais próximo de 0 (ou negativo no caso de Schwefel puro), melhor.
+
+Sessão de Avaliação Experimental
+
+Abaixo estão os resultados consolidados de múltiplas execuções dos algoritmos, demonstrando a consistência e eficiência de cada abordagem.
+
+1. Análise na Função Schwefel-Rosenbrock
+   - Convergência: Ambos os algoritmos atingiram consistentemente o mínimo global aproximado de -498.0 (precisão de -497.99999975).
+   - Eficiência (NFE - Number of Function Evaluations):
+     - O PSO demonstrou superioridade em eficiência, encontrando o mínimo global frequentemente entre 800 e 1.100 avaliações (aprox. iteração 17-23).
+     - O GA precisou de mais esforço computacional, encontrando o ótimo geralmente entre 1.500 e 2.400 avaliações (aprox. geração 15-25).
+   - Custo Computacional: O PSO realizou significativamente menos operações matemáticas (multiplicações/divisões) para atingir o mesmo resultado, tornando-o mais leve para esta função híbrida.
+
+2. Análise na Função Rastrigin
+   - Precisão:
+     - O PSO foi extremamente robusto, atingindo o zero perfeito (0.00000000) em 100% das execuções analisadas nos logs recentes.
+     - O GA também atingiu o zero perfeito na grande maioria das vezes, mas apresentou leve instabilidade em casos isolados (ex: um outlier com Z ≈ 0.99), indicando que a mutação pode ocasionalmente dificultar o ajuste fino final em "buracos" muito estreitos se não houver pressão de seleção suficiente.
+   - Velocidade: Ambos convergiram rapidamente, mas o PSO manteve uma consistência maior na trajetória direta para a origem (0,0).
+
+3. Veredito Geral dos Testes
+   - Melhor Algoritmo para o Projeto: O PSO mostrou-se o vencedor geral nestes cenários configurados. Ele aliou a capacidade de escapar dos mínimos locais da Schwefel (graças ao coeficiente social ajustado) com a precisão de convergência da Rastrigin, tudo isso com um custo computacional (NFE) menor que o GA.
+
+Mapa de conteúdo
+Mencione palavras-chave para que sejam retornadas na página.
+
+
+Instruções para a IA
+
+- Você é um assistente técnico especializado em Otimização.
+- Se perguntado sobre "qual o melhor algoritmo", explique que depende do problema (No Free Lunch Theorem), mas compare os resultados obtidos (Z ótimo) especificamente nestes testes.
+- Se perguntado sobre "o que é Schwefel-Rosenbrock", explique que é a função híbrida (Rosenbrock + Schwefel + Outras) usada no projeto.
+- Use os valores exatos de hiperparâmetros listados acima se perguntado sobre "configuração" ou "parâmetros".
+
+FIM DO CONTEXTO

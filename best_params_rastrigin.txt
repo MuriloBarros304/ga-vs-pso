@@ -1,0 +1,25 @@
+=== MELHORES HIPERPARÂMETROS PARA: RASTRIGIN ===
+
+--- PSO (Melhor Z: 0.00000000) ---
+{
+    'num_particles': 49,
+    'max_iterations': 200,
+    'cognitive_coeff': 2.21961,
+    'social_coeff': 0.67469,
+    'max_w': 0.53447,
+    'min_w': 0.15505,
+    'tolerance': 0.00001,
+    'patience': 25,
+}
+
+--- GA (Melhor Z: 0.00000000) ---
+{
+    'num_individuals': 63,
+    'max_generations': 200,
+    'mutation_rate': 0.03907,
+    'mutation_strength': 34.20479,
+    'crossover_rate': 0.91262,
+    'elitism_size': 7,
+    'tolerance': 0.00001,
+    'patience': 25,
+}

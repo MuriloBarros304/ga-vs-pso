@@ -1,73 +1,120 @@
 import numpy as np
+from function import ObjectiveFunction
 from run_pso import run_pso_and_animate
 from run_ga import run_ga_and_animate
-from function import ObjectiveFunction
 
-function = ObjectiveFunction()
+# ==============================================================================
+# CONFIGURAÇÃO GLOBAL
+# ==============================================================================
+# Limites fixos [-500, 500] (A classe Function normaliza Rastrigin internamente)
+BOUNDS = (np.array([-500, -500]), np.array([500, 500]))
 
-PSO_CONFIG = {
-    'obj_func': function,
-    'num_particles': 40,
-    'max_iterations': 100,
-    'bounds': (np.array([-500, -500]), np.array([500, 500])),
-    'cognitive_coeff': 0.5,
-    'social_coeff': 0.4,
-    'min_w': 0.01,
-    'max_w': 0.7,
-    'tolerance': 1e-5,
-    'patience': 10
+default_pso_params = {
+    'num_particles': 30,
+    'max_iterations': 200,
+    'bounds': BOUNDS,
 }
 
-GA_CONFIG = {
-    'obj_func': function,
-    'num_individuals': 40,
-    'max_generations': 100,
-    'bounds': (np.array([-500, -500]), np.array([500, 500])),
-    'mutation_rate': 0.07,
-    'mutation_strength': 20,
-    'crossover_rate': 0.7,
-    'elitism_size': 10,
-    'tolerance': 1e-5,
-    'patience': 10
+default_ga_params = {
+    'num_individuals': 50,
+    'max_generations': 200,
+    'bounds': BOUNDS,
 }
 
-# PSO
-""" valores_de_n_particulas = [10, 20, 30, 50, 80]
-valores_do_coeficiente_cognitivo = [0.6, 0.9, 1.4, 1.8, 2.2]
-valores_do_coeficiente_social = [0.5, 0.8, 0.9, 1.5, 2]
-valores_de_max_w = [0.4, 0.5, 0.6, 0.7, 0.9]
-valores_de_min_w = [0.01, 0.02, 0.05, 0.09, 0.1]
+def run_func(target_func_name, pso_params=None, ga_params=None):
+    """
+    Executa o fluxo completo (PSO + GA) para uma função alvo específica,
+    gerando as animações correspondentes.
+    Args:
+        target_func_name (str): Nome da função alvo ('schwefel_rosenbrock' ou 'rastrigin').
+        pso_params (dict, optional): Parâmetros específicos para o PSO. Usa default se None.
+        ga_params (dict, optional): Parâmetros específicos para o GA. Usa default se None.
+    Returns:
+        None
+    """
+    print(f"\n{'='*60}")
+    print(f"CENÁRIO: {target_func_name.upper()}")
+    print(f"{'='*60}")
 
-for num_particles in valores_de_n_particulas:
-    PSO_CONFIG['num_particles'] = num_particles
-    for cognitive_coeff in valores_do_coeficiente_cognitivo:
-        PSO_CONFIG['cognitive_coeff'] = cognitive_coeff
-        for social_coeff in valores_do_coeficiente_social:
-            PSO_CONFIG['social_coeff'] = social_coeff
-            for i in range(len(valores_de_max_w)):
-                PSO_CONFIG['max_w'] = valores_de_max_w[i]
-                PSO_CONFIG['min_w'] = valores_de_min_w[i]
-                run_pso_and_animate(params=PSO_CONFIG) """
+    # Instancia a função objetivo
+    obj_func = ObjectiveFunction(target_func=target_func_name)
 
-# GA
-""" valores_de_num_individuos = [10, 20, 30, 50, 80]
-valores_da_taxa_de_crossover = [0.6, 0.7, 0.75, 0.8, 0.85]
-valores_da_taxa_de_mutacao = [0.02, 0.03, 0.07, 0.08, 0.1]
-valores_do_tamanho_da_elite = [1, 2, 4, 7, 10]
+    # ------------------- PSO -------------------
+    # Usa params passados ou o default
+    current_pso_params = default_pso_params.copy() if pso_params is None else pso_params.copy()
+    
+    # [CORREÇÃO] Injeta a função objetivo no dicionário antes de enviar
+    current_pso_params['obj_func'] = obj_func
+    
+    print(f"\n... Gerando animação PSO para {target_func_name} ...")
+    obj_func.reset() # Reset obrigatório antes da rodada final
+    run_pso_and_animate(current_pso_params)
 
-for num_individuals in valores_de_num_individuos:
-    GA_CONFIG['num_individuals'] = num_individuals
-    for elitism_size in valores_do_tamanho_da_elite:
-        GA_CONFIG['elitism_size'] = elitism_size
-        for crossover_rate in valores_da_taxa_de_crossover:
-            GA_CONFIG['crossover_rate'] = crossover_rate
-            for mutation_rate in valores_da_taxa_de_mutacao:
-                GA_CONFIG['mutation_rate'] = mutation_rate
-                run_ga_and_animate(params=GA_CONFIG) """
+    # ------------------- GA --------------------
+    # Usa params passados ou o default
+    current_ga_params = default_ga_params.copy() if ga_params is None else ga_params.copy()
+    
+    # [CORREÇÃO] Injeta a função objetivo no dicionário antes de enviar
+    current_ga_params['obj_func'] = obj_func
+    
+    print(f"\n... Gerando animação GA para {target_func_name} ...")
+    obj_func.reset() # Reset obrigatório antes da rodada final
+    run_ga_and_animate(current_ga_params)
 
 if __name__ == '__main__':
-    function.reset()
-    run_pso_and_animate(params=PSO_CONFIG)
+    # ==========================================================================
+    # 1. Executa o fluxo para Schwefel-Rosenbrock
+    # ==========================================================================
+    print("\n>>> INICIANDO PROCESSO DE OTIMIZAÇÃO E GERAÇÃO DE ANIMAÇÕES <<<")
+    schwefel_rosenbrock_pso_params = {
+        'num_particles': 45,
+        'max_iterations': 200,
+        'cognitive_coeff': 0.6,
+        'social_coeff': 1.6,
+        'max_w': 0.6,
+        'min_w': 0.1,
+        'tolerance': 0.00001,
+        'patience': 25,
+        'bounds': BOUNDS,
+    }
+    schwefel_rosenbrock_ga_params = {
+        'num_individuals': 94,
+        'max_generations': 200,
+        'mutation_rate': 0.06,
+        'mutation_strength': 26,
+        'crossover_rate': 0.7,
+        'elitism_size': 6,
+        'tolerance': 0.00001,
+        'patience': 25,
+        'bounds': BOUNDS,
+    }
+    run_func('schwefel_rosenbrock', pso_params=schwefel_rosenbrock_pso_params, ga_params=schwefel_rosenbrock_ga_params)
+
+    # ==========================================================================
+    # 2. Executa o fluxo para Rastrigin
+    # ==========================================================================
+    rastrigin_pso_params = {
+        'num_particles': 49,
+        'max_iterations': 200,
+        'cognitive_coeff': 2.2,
+        'social_coeff': 0.7,
+        'max_w': 0.55,
+        'min_w': 0.15,
+        'tolerance': 1e-5,
+        'patience': 25,
+        'bounds': BOUNDS,
+    }
+    rastrigin_ga_params = {
+        'num_individuals': 63,
+        'max_generations': 200,
+        'mutation_rate': 0.04,
+        'mutation_strength': 34,
+        'crossover_rate': 0.9,
+        'elitism_size': 7,
+        'tolerance': 1e-5,
+        'patience': 25,
+        'bounds': BOUNDS,
+    }
+    run_func('rastrigin', pso_params=rastrigin_pso_params, ga_params=rastrigin_ga_params)
     
-    function.reset()
-    run_ga_and_animate(params=GA_CONFIG)
+    print("\n>>> PROCESSO CONCLUÍDO. <<<")
