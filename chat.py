@@ -4,6 +4,9 @@ import os
 import re
 
 IMAGE_MAP = {
+    'funções objetivo': ['imgs/rastrigin.gif', 'imgs/schwefel_rosenbrock.gif'],
+    'animações PSO': ['animacoes/pso_rastrigin.mp4', 'animacoes/pso_schwefel_rosenbrock.mp4'],
+    'animações GA': ['animacoes/ga_rastrigin.mp4', 'animacoes/ga_schwefel_rosenbrock.mp4'],
 }
 
 def load_context():
@@ -46,10 +49,20 @@ def run_ai(user_prompt):
     Executa a consulta à API do Gemini, combinando o contexto e o prompt do usuário.
     Retorna o texto da resposta e uma lista de imagens para exibir.
     """
-    client = genai.Client()  # type: ignore
     context_text = load_context()
     if not context_text:
         return "Erro: Não foi possível carregar o contexto do projeto.", []
+    
+    try:
+        api_key = st.secrets["GEMINI_API_KEY"]
+    except Exception:
+        # Se não encontrar, retorna erro amigável
+        return "Erro de Configuração: A chave de API (GEMINI_API_KEY) não foi encontrada nos secrets do Streamlit.", []
+
+    try:
+        client = genai.Client(api_key=api_key)
+    except Exception as e:
+         return f"Erro ao inicializar o cliente Gemini: {e}", []
 
     full_prompt = f"""
     {context_text}
@@ -62,9 +75,7 @@ def run_ai(user_prompt):
     ---
     
     Com base estritamente no contexto fornecido, responda à pergunta do usuário.
-    Se a resposta exigir a visualização de um gráfico, mencione palavras-chave
-    como 'comparação', 'dispersão', 'importância', ou 'predição diária'
-    em sua resposta para que a imagem correta possa ser exibida.
+    Se a resposta exigir a visualização de uma imagem, mencione as palavras-chave.
     """
     
     try:

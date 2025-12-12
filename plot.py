@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from function import ObjectiveFunction
 
-objective_function = ObjectiveFunction('rastrigin')
+objective_function = ObjectiveFunction('schwefel_rosenbrock')
 
 # Define o intervalo para o plot
 # x_range = np.arange(-3.12, 3.12, 0.1)

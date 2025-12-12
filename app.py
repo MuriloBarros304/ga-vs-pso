@@ -1,6 +1,7 @@
 import streamlit as st
 import chat
 import os
+import base64
 
 st.session_state.setdefault("chat_history", [])
 
@@ -136,9 +137,30 @@ with tab_chat:
             if interaction["images"]:
                 for img_path in interaction["images"]:
                     if os.path.exists(img_path):
-                        st.image(img_path, caption=f"Gráfico: {img_path}", width="content")
+                        # Detecta se é vídeo ou imagem para exibir corretamente
+                        _, ext = os.path.splitext(img_path)
+                        if ext.lower() == '.mp4':
+                            st.video(img_path)
+                        elif ext.lower() == '.gif':
+                            # Lê o GIF e converte para base64 para garantir a animação
+                            try:
+                                with open(img_path, "rb") as f:
+                                    contents = f.read()
+                                    data_url = base64.b64encode(contents).decode("utf-8")
+                                
+                                # Renderiza via Markdown/HTML
+                                st.markdown(
+                                    f'<img src="data:image/gif;base64,{data_url}" width="800" alt="gif animado">',
+                                    unsafe_allow_html=True,
+                                )
+                            except Exception as e:
+                                st.error(f"Erro ao carregar GIF: {e}")
+                        
+                        # Imagens estáticas normais (png, jpg)
+                        else:
+                            st.image(img_path, caption=f"Imagem: {img_path}", width=600)
                     else:
-                        st.warning(f"Imagem {img_path} não encontrada no servidor.")
+                        st.warning(f"Arquivo {img_path} não encontrado no servidor.")
 
     with st.form(key="chat_form", clear_on_submit=True):
         user_prompt = st.text_input("Faça sua pergunta:", placeholder="Ex: Qual modelo teve o menor erro?", key="chat_input")
