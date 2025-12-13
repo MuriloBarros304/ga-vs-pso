@@ -4,7 +4,7 @@ import os
 import re
 
 IMAGE_MAP = {
-    'funções objetivo': ['imgs/rastrigin.gif', 'imgs/schwefel_rosenbrock.gif'],
+    '3D': ['imgs/rastrigin.gif', 'imgs/schwefel_rosenbrock.gif'],
     'animações PSO': ['animacoes/pso_rastrigin.mp4', 'animacoes/pso_schwefel_rosenbrock.mp4'],
     'animações GA': ['animacoes/ga_rastrigin.mp4', 'animacoes/ga_schwefel_rosenbrock.mp4'],
 }
@@ -79,7 +79,7 @@ def run_ai(user_prompt):
     """
     
     try:
-        response = client.models.generate_content(
+        response = client.models.generate_content( # type: ignore
             model="gemini-2.5-flash", contents=full_prompt
         )
         response_text = response.text

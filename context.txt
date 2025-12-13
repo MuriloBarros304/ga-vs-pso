@@ -104,7 +104,7 @@ Abaixo estão os resultados consolidados de múltiplas execuções dos algoritmo
 
 Mapa de conteúdo
 Mencione palavras-chave para que sejam retornadas na página.
-'funções objetivo' - As duas funções Schwefel-Rosenbrock e Rastrigin em GIFs;
+'3D' - As duas funções Schwefel-Rosenbrock e Rastrigin em 3D via GIFs;
 'animações PSO' - Vídeos com a convergência das partículas em um gráfico 2D para as duas funções objetivo usando PSO;
 'animações GA' - Vídeos com a convergência dos indivíduos em um gráfico 2D para as duas funções objetivo usando GA;
 
