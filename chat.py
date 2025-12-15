@@ -74,7 +74,7 @@ def run_ai(user_prompt):
     
     ---
     
-    Com base estritamente no contexto fornecido, responda à pergunta do usuário.
+    Com base no contexto fornecido, responda à pergunta do usuário.
     Se a resposta exigir a visualização de uma imagem, mencione as palavras-chave.
     """
     

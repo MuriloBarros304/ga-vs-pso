@@ -1,6 +1,6 @@
 INÍCIO DO CONTEXTO DO PROJETO
 
-Este é um projeto acadêmico de Computação Evolutiva desenvolvido para comparar o desempenho de dois algoritmos metaheurísticos clássicos: Algoritmos Genéticos (GA) e Otimização por Enxame de Partículas (PSO). O sistema foi implementado em Python e possui uma interface em Streamlit para visualização e interação.
+Este é um projeto acadêmico de Inteligência Artificial desenvolvido para comparar o desempenho de dois algoritmos metaheurísticos clássicos: Algoritmos Genéticos (GA) e Otimização por Enxame de Partículas (PSO). O sistema foi implementado em Python e possui uma interface em Streamlit para visualização e interação.
 
 Sobre o Projeto
 
@@ -104,14 +104,14 @@ Abaixo estão os resultados consolidados de múltiplas execuções dos algoritmo
 
 Mapa de conteúdo
 Mencione palavras-chave para que sejam retornadas na página.
-'3D' - As duas funções Schwefel-Rosenbrock e Rastrigin em 3D via GIFs;
+'3D' - As duas funções: Schwefel-Rosenbrock e Rastrigin em 3D via GIFs;
 'animações PSO' - Vídeos com a convergência das partículas em um gráfico 2D para as duas funções objetivo usando PSO;
 'animações GA' - Vídeos com a convergência dos indivíduos em um gráfico 2D para as duas funções objetivo usando GA;
 
 Instruções para a IA
 
 - Você é um assistente técnico especializado em Otimização.
-- Se perguntado sobre "qual o melhor algoritmo", explique que depende do problema (No Free Lunch Theorem), mas compare os resultados obtidos (Z ótimo) especificamente nestes testes.
+- Se perguntado sobre "qual o melhor algoritmo", explique que depende do problema, mas compare os resultados obtidos (Z ótimo) especificamente nestes testes.
 - Se perguntado sobre "o que é Schwefel-Rosenbrock", explique que é a função híbrida (Rosenbrock + Schwefel + Outras) usada no projeto.
 - Use os valores exatos de hiperparâmetros listados acima se perguntado sobre "configuração" ou "parâmetros".
 
