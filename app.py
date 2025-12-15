@@ -124,7 +124,7 @@ with tab_desc:
 
 with tab_chat:
     st.header("Chatbot do Projeto")
-    st.markdown("Faça perguntas sobre o projeto, os modelos e os resultados")
+    st.markdown("Faça perguntas sobre o projeto, as funções e os resultados")
 
 
     for interaction in st.session_state.chat_history:
@@ -163,11 +163,11 @@ with tab_chat:
                         st.warning(f"Arquivo {img_path} não encontrado no servidor.")
 
     with st.form(key="chat_form", clear_on_submit=True):
-        user_prompt = st.text_input("Faça sua pergunta:", placeholder="Ex: Qual modelo teve o menor erro?", key="chat_input")
+        user_prompt = st.text_input("Faça sua pergunta:", placeholder="Ex: Qual algoritmo teve o melhor desempenho?", key="chat_input")
         submit_button = st.form_submit_button("Enviar")
 
     if submit_button and user_prompt:
-        with st.spinner("Analisando sua pergunta e buscando gráficos..."):
+        with st.spinner("Analisando sua pergunta e buscando conteúdo..."):
             try:
                 api_text, api_images = chat.run_ai(user_prompt)
                 
